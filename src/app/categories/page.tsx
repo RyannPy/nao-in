@@ -126,7 +126,6 @@ export default function CategoriesPage() {
   return (
     <div
       className="min-h-screen bg-[#d0d0d0] font-mono text-[#1a1a1a] relative overflow-x-hidden"
-      style={{ fontFamily: "'Courier New', Courier, monospace" }}
     >
       {/* Inline CSS — pure CSS hover, no JS state */}
       <style>{`
@@ -229,18 +228,20 @@ export default function CategoriesPage() {
       <div className="relative z-10 px-8 py-10 max-w-5xl mx-auto">
 
         {/* ── Page header ── */}
-        <header className="mb-12">
+        <header className="mb-10">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-[9px] tracking-[0.35em] text-[#888] uppercase">
               NAO-IN
             </span>
             <span className="h-px flex-1 bg-[#bbb]" />
-            <span className="text-[9px] tracking-[0.2em] text-[#888]">SYS-003</span>
+            <span className="text-[9px] tracking-[0.2em] text-[#888]">
+              PGE-003
+            </span>
           </div>
           <h1 className="text-4xl font-black tracking-tighter leading-none uppercase text-[#1a1a1a]">
             CATEGORY
           </h1>
-          <div className="mt-2 h-[3px] w-16 bg-[#e8c830]" />
+          <div className="mt-2 h-0.75 w-16 bg-[#e8c830]" />
         </header>
 
         {/* ── Section label ── */}

@@ -28,12 +28,6 @@ export interface ArticleCardProps {
   badgeVariant?: BadgeVariant;
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const MONO: CSSProperties = {
-  fontFamily: "'Courier New', Courier, monospace",
-};
-
 // Scanline texture overlay di image placeholder
 const SCANLINE: CSSProperties = {
   backgroundImage:
@@ -55,17 +49,13 @@ export default function ArticleCard({
   return (
     <Link
       href={href}
-      style={MONO}
-      className="group relative flex flex-col w-full aspect-[4/3] bg-[#c4c4c4] border border-[#b0b0b0] overflow-hidden transition-all duration-200 ease-out hover:shadow-[4px_4px_0_#1a1a1a] hover:-translate-y-px hover:border-[#888] select-none"
+      className="group relative flex flex-col w-full aspect-4/3 bg-[#c4c4c4] border border-[#b0b0b0] overflow-hidden transition-all duration-200 ease-out hover:shadow-[4px_4px_0_#1a1a1a] hover:-translate-y-px hover:border-[#888] select-none"
     >
       {/* ── "Tab" di pojok kiri atas — efek folder ── */}
       <div className="absolute top-0 left-0 z-10 flex items-center gap-2 h-5 bg-[#1a1a1a] pl-2 pr-3">
         {/* dot merah kecil */}
-        <span className="w-[5px] h-[5px] rounded-full bg-[#e8c830] shrink-0" />
-        <span
-          className="text-[7px] tracking-[0.3em] text-[#555] uppercase leading-none"
-          style={MONO}
-        >
+        <span className="w-1.25 h-1.25 rounded-full bg-[#e8c830] shrink-0" />
+        <span className="text-[7px] tracking-[0.3em] text-[#555] uppercase leading-none">
           {tag}
         </span>
       </div>
@@ -93,7 +83,7 @@ export default function ArticleCard({
             {/* dark-to-transparent gradient bawah */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#c4c4c4]"
+              className="pointer-events-none absolute inset-0 bg-linear-to-b from-transparent via-transparent to-[#c4c4c4]"
             />
           </>
         ) : (
@@ -107,10 +97,7 @@ export default function ArticleCard({
             />
             {/* Grid crosshair placeholder */}
             <div className="relative flex flex-col items-center gap-1 opacity-30">
-              <span
-                className="text-[8px] tracking-[0.4em] text-[#555] uppercase"
-                style={MONO}
-              >
+              <span className="text-[8px] tracking-[0.4em] text-[#555] uppercase">
                 NO_IMG
               </span>
               <span className="w-8 h-px bg-[#555]" />
@@ -122,10 +109,7 @@ export default function ArticleCard({
       {/* ── Info area (bawah, sisa tinggi) ── */}
       <div className="flex flex-col justify-between flex-1 px-3 pt-2 pb-3 bg-[#c4c4c4] group-hover:bg-[#1a1a1a] transition-colors duration-200">
         {/* Judul */}
-        <p
-          className="text-[12px] font-bold tracking-tight leading-snug text-[#1a1a1a] group-hover:text-white transition-colors duration-150 line-clamp-2"
-          style={MONO}
-        >
+        <p className="text-[12px] font-bold tracking-tight leading-snug text-[#1a1a1a] group-hover:text-white transition-colors duration-150 line-clamp-2">
           {title}
         </p>
 
@@ -137,22 +121,19 @@ export default function ArticleCard({
             // Di hover (dark bg), paksa ghost agar tetap terbaca
             className="group-hover:bg-transparent group-hover:text-[#888] group-hover:border-[#444]"
           />
-          <span
-            className="text-[7px] tracking-[0.2em] text-[#888] group-hover:text-[#555] shrink-0 leading-none"
-            style={MONO}
-          >
+          <span className="text-[7px] tracking-[0.2em] text-[#888] group-hover:text-[#555] shrink-0 leading-none">
             {date}
           </span>
         </div>
       </div>
 
       {/* ── Accent bar kiri bawah (muncul saat hover) ── */}
-      <span className="absolute left-0 bottom-0 w-[3px] bg-[#e8c830] transition-all duration-200 ease-out h-0 group-hover:h-full origin-bottom" />
+      <span className="absolute left-0 bottom-0 w-0.75 bg-[#e8c830] transition-all duration-200 ease-out h-0 group-hover:h-full origin-bottom" />
 
       {/* ── Shimmer scanline overlay seluruh card ── */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        className="pointer-events-none absolute inset-0 bg-linear-to-b from-white/4ransparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"
       />
     </Link>
   );

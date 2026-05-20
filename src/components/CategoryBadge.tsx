@@ -42,11 +42,11 @@ export default function CategoryBadge({
       style={MONO}
       className={[
         // Base
-        "inline-flex items-center px-2 py-[3px]",
+        "inline-flex items-center px-2 py-0.75",
         "text-[8px] font-semibold tracking-[0.28em] uppercase leading-none",
         "select-none shrink-0",
         // Left tick — decorative
-        "relative pl-[18px]",
+        "relative pl-4.5",
         // Variant
         VARIANT_STYLES[variant],
         className,
@@ -57,7 +57,7 @@ export default function CategoryBadge({
       {/* Left accent tick */}
       <span
         aria-hidden
-        className="absolute left-[7px] top-1/2 -translate-y-1/2 w-[3px] h-[3px] rounded-none"
+        className="absolute left-1.75 top-1/2 -translate-y-1/2 w-0.75 h-0.75 rounded-none"
         style={{
           background:
             variant === "ghost"

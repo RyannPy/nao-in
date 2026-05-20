@@ -56,7 +56,7 @@ export default function DesktopSidebar({
   const pathname = usePathname();
 
   return (
-    <aside className="hidden lg:flex flex-col justify-center w-64 min-h-screen bg-[#c9c9c9] border-r border-[#b0b0b0] select-none relative overflow-hidden">
+    <aside className="hidden lg:flex fixed left-0 top-0 flex-col justify-center w-64 h-screen bg-[#c9c9c9] border-r border-[#b0b0b0] select-none overflow-hidden">
       {/* ── Decorative texture ── */}
       <div
         aria-hidden

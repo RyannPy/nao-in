@@ -87,14 +87,6 @@ const ALL_ARTICLES = [
     readTime: "10 MIN",
     status: "PUBLISH",
   },
-  {
-    tag: "ART-010",
-    category: "Infrastruktur",
-    title: "GitOps di Dunia Nyata: Pelajaran dari Produksi",
-    date: "01 APR 2026",
-    readTime: "14 MIN",
-    status: "PUBLISH",
-  },
 ];
 
 const CATEGORIES = [
@@ -144,17 +136,13 @@ export default function ArticlesPage() {
             </span>
             <span className="h-px flex-1 bg-[#bbb]" />
             <span className="text-[9px] tracking-[0.2em] text-[#888]">
-              SYS-002
+              PGE-002
             </span>
           </div>
           <h1 className="text-4xl font-black tracking-tighter leading-none uppercase text-[#1a1a1a]">
             ARTIKEL
           </h1>
-          <div className="mt-2 h-[3px] w-16 bg-[#e8c830]" />
-          <p className="mt-4 text-[12px] text-[#666] leading-relaxed max-w-lg">
-            Arsip penuh tulisan teknis. Gunakan filter di bawah untuk
-            mempersempit pencarian.
-          </p>
+          <div className="mt-2 h-0.75 w-16 bg-[#e8c830]" />
         </header>
 
         {/* ── Search bar ── */}
@@ -172,7 +160,7 @@ export default function ArticlesPage() {
         </div>
 
         {/* ── Category filter ── */}
-        <div className="flex flex-wrap gap-[3px] mb-8">
+        <div className="flex flex-wrap gap-0.75 mb-8">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}

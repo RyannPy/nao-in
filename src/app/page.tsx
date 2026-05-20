@@ -83,13 +83,13 @@ export default function HomePage() {
             </span>
             <span className="h-px flex-1 bg-[#bbb]" />
             <span className="text-[9px] tracking-[0.2em] text-[#888]">
-              INDEX
+              PGE-001
             </span>
           </div>
           <h1 className="text-4xl font-black tracking-tighter leading-none uppercase text-[#1a1a1a]">
             BERANDA
           </h1>
-          <div className="mt-2 h-[3px] w-16 bg-[#e8c830]" />
+          <div className="mt-2 h-0.75 w-16 bg-[#e8c830]" />
         </header>
 
         {/* ── Stats bar ── */}
