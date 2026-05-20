@@ -1,7 +1,7 @@
 // app/page.tsx  →  salin sebagai HomePage
 
 import Link from "next/link";
-
+import ArticleCard from "@/components/ArticleCard";
 // ─── Dummy data ───────────────────────────────────────────────────────────────
 
 const FEATURED = {
@@ -63,7 +63,6 @@ function cx(...c: (string | false | undefined)[]) {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#d0d0d0] font-mono text-[#1a1a1a] relative overflow-x-hidden">
-
       {/* ── Background texture ── */}
       <div
         aria-hidden
@@ -76,13 +75,16 @@ export default function HomePage() {
       />
 
       <div className="relative z-10 px-8 py-10 max-w-4xl mx-auto">
-
         {/* ── Page header ── */}
         <header className="mb-12">
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-[9px] tracking-[0.35em] text-[#888] uppercase">TERMA{"//"}LOG</span>
+            <span className="text-[9px] tracking-[0.35em] text-[#888] uppercase">
+              TERMA{"//"}LOG
+            </span>
             <span className="h-px flex-1 bg-[#bbb]" />
-            <span className="text-[9px] tracking-[0.2em] text-[#888]">INDEX</span>
+            <span className="text-[9px] tracking-[0.2em] text-[#888]">
+              INDEX
+            </span>
           </div>
           <h1 className="text-4xl font-black tracking-tighter leading-none uppercase text-[#1a1a1a]">
             BERANDA
@@ -93,9 +95,16 @@ export default function HomePage() {
         {/* ── Stats bar ── */}
         <div className="grid grid-cols-4 gap-px bg-[#bbb] border border-[#bbb] mb-12">
           {STATS.map((s) => (
-            <div key={s.label} className="bg-[#c9c9c9] px-4 py-4 flex flex-col gap-1">
-              <span className="text-2xl font-black tracking-tighter text-[#1a1a1a]">{s.value}</span>
-              <span className="text-[8px] tracking-[0.25em] text-[#777] uppercase">{s.label}</span>
+            <div
+              key={s.label}
+              className="bg-[#c9c9c9] px-4 py-4 flex flex-col gap-1"
+            >
+              <span className="text-2xl font-black tracking-tighter text-[#1a1a1a]">
+                {s.value}
+              </span>
+              <span className="text-[8px] tracking-[0.25em] text-[#777] uppercase">
+                {s.label}
+              </span>
             </div>
           ))}
         </div>
@@ -103,7 +112,9 @@ export default function HomePage() {
         {/* ── Featured article ── */}
         <section className="mb-12">
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase">{"// UNGGULAN"}</span>
+            <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase">
+              {"// UNGGULAN"}
+            </span>
             <span className="h-px flex-1 bg-[#bbb]" />
           </div>
 
@@ -116,8 +127,12 @@ export default function HomePage() {
             <span className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[#333]" />
 
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[9px] tracking-[0.3em] text-[#e8c830]">{FEATURED.tag}</span>
-              <span className="text-[9px] tracking-[0.2em] text-[#555] uppercase">{FEATURED.category}</span>
+              <span className="text-[9px] tracking-[0.3em] text-[#e8c830]">
+                {FEATURED.tag}
+              </span>
+              <span className="text-[9px] tracking-[0.2em] text-[#555] uppercase">
+                {FEATURED.category}
+              </span>
             </div>
             <h2 className="text-xl font-black tracking-tight leading-snug text-white uppercase mb-3 group-hover:text-[#e8c830] transition-colors duration-150">
               {FEATURED.title}
@@ -126,8 +141,12 @@ export default function HomePage() {
               {FEATURED.excerpt}
             </p>
             <div className="flex items-center gap-4">
-              <span className="text-[9px] tracking-[0.2em] text-[#555]">{FEATURED.date}</span>
-              <span className="text-[9px] tracking-[0.2em] text-[#555]">{FEATURED.readTime} READ</span>
+              <span className="text-[9px] tracking-[0.2em] text-[#555]">
+                {FEATURED.date}
+              </span>
+              <span className="text-[9px] tracking-[0.2em] text-[#555]">
+                {FEATURED.readTime} READ
+              </span>
               <span className="ml-auto text-[9px] tracking-[0.3em] text-[#e8c830] group-hover:translate-x-1 transition-transform duration-150">
                 BACA →
               </span>
@@ -138,37 +157,27 @@ export default function HomePage() {
         {/* ── Recent articles ── */}
         <section>
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase">{"// TERBARU"}</span>
+            <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase">
+              {"// TERBARU"}
+            </span>
             <span className="h-px flex-1 bg-[#bbb]" />
-            <Link href="/articles" className="text-[9px] tracking-[0.2em] text-[#888] hover:text-[#1a1a1a] transition-colors">
+            <Link
+              href="/articles"
+              className="text-[9px] tracking-[0.2em] text-[#888] hover:text-[#1a1a1a] transition-colors"
+            >
               SEMUA ARTIKEL →
             </Link>
           </div>
-
-          <div className="flex flex-col gap-px bg-[#bbb]">
-            {RECENT.map((art, i) => (
-              <Link
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#bbb]">
+            {RECENT.map((art) => (
+              <ArticleCard
                 key={art.tag}
+                tag={art.tag}
+                title={art.title}
+                category={art.category}
+                date={art.date}
                 href={`/articles/${art.tag.toLowerCase()}`}
-                className="group flex items-center gap-5 bg-[#c9c9c9] px-5 py-4 hover:bg-[#1a1a1a] transition-colors duration-150 relative"
-              >
-                <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#e8c830] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-150" />
-                <span className="text-[9px] tracking-[0.2em] text-[#aaa] group-hover:text-[#555] w-16 shrink-0">
-                  {art.tag}
-                </span>
-                <span className="text-[9px] tracking-[0.2em] text-[#888] group-hover:text-[#555] w-28 shrink-0 uppercase">
-                  {art.category}
-                </span>
-                <span className="text-[13px] font-semibold tracking-tight text-[#1a1a1a] group-hover:text-white flex-1 transition-colors duration-150">
-                  {art.title}
-                </span>
-                <span className="text-[9px] tracking-[0.2em] text-[#aaa] group-hover:text-[#555] shrink-0 hidden md:block">
-                  {art.date}
-                </span>
-                <span className="text-[9px] tracking-[0.2em] text-[#aaa] group-hover:text-[#555] shrink-0">
-                  {art.readTime}
-                </span>
-              </Link>
+              />
             ))}
           </div>
         </section>
@@ -181,14 +190,15 @@ export default function HomePage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e8c830] opacity-60" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e8c830]" />
               </span>
-              <span className="text-[9px] tracking-[0.2em] text-[#888]">SISTEM AKTIF</span>
+              <span className="text-[9px] tracking-[0.2em] text-[#888]">
+                SISTEM AKTIF
+              </span>
             </div>
             <span className="text-[9px] tracking-[0.2em] text-[#aaa]">
               TERMA{"//"}LOG © 2026
             </span>
           </div>
         </footer>
-
       </div>
     </div>
   );
