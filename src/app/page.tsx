@@ -1,203 +1,195 @@
-// HomePage.tsx
-// Halaman utama blog — layout editorial dengan featured article besar
-// Tema: industrial sci-fi, monospace, abu-abu & hitam, aksen kuning
+// app/page.tsx  →  salin sebagai HomePage
 
-function cx(...classes: (string | false | null | undefined)[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import Link from "next/link";
 
-interface Article {
-  id: string;
-  tag: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-}
+// ─── Dummy data ───────────────────────────────────────────────────────────────
 
-const FEATURED: Article = {
-  id: "f01",
-  tag: "UNGGULAN",
-  title: "Arsitektur Sistem Terdistribusi di Era Pasca-Cloud",
+const FEATURED = {
+  tag: "ART-001",
+  category: "Sistem",
+  title: "Arsitektur Jaringan Terdistribusi pada Era Komputasi Tepi",
   excerpt:
-    "Ketika infrastruktur terpusat mulai menunjukkan batasnya, paradigma baru komputasi tepi mendefinisikan ulang cara kita membangun sistem yang tangguh — dan apa artinya untuk engineer generasi berikutnya.",
+    "Bagaimana node-node kecil di ujung jaringan mengubah cara kita merancang sistem skala besar — sebuah tinjauan teknis dari lapangan.",
   date: "18 MEI 2026",
-  readTime: "12 MENIT",
+  readTime: "12 MIN",
 };
 
-const RECENTS: Article[] = [
+const RECENT = [
   {
-    id: "r01",
-    tag: "SISTEM",
-    title: "Kenapa Event Sourcing Bukan Silver Bullet",
-    excerpt: "Analisis jujur tentang trade-off yang sering diabaikan.",
-    date: "14 MEI 2026",
-    readTime: "8 MENIT",
+    tag: "ART-002",
+    category: "Infrastruktur",
+    title: "Kontainer vs VM: Mana yang Tepat untuk Workload Anda?",
+    date: "15 MEI 2026",
+    readTime: "8 MIN",
   },
   {
-    id: "r02",
-    tag: "BAHASA",
-    title: "Rust di Produksi: 18 Bulan Kemudian",
-    excerpt: "Laporan lapangan dari tim yang migrasi penuh ke Rust.",
-    date: "09 MEI 2026",
-    readTime: "15 MENIT",
+    tag: "ART-003",
+    category: "Keamanan",
+    title: "Zero-Trust: Filosofi, Bukan Sekadar Produk",
+    date: "12 MEI 2026",
+    readTime: "10 MIN",
   },
   {
-    id: "r03",
-    tag: "JARINGAN",
-    title: "eBPF dan Masa Depan Observabilitas",
-    excerpt: "Kernel programmability mengubah cara kita debug produksi.",
-    date: "02 MEI 2026",
-    readTime: "10 MENIT",
+    tag: "ART-004",
+    category: "Pengembangan",
+    title: "Rust di Tahun 2026: Apakah Sudah Waktunya Beralih?",
+    date: "08 MEI 2026",
+    readTime: "15 MIN",
+  },
+  {
+    tag: "ART-005",
+    category: "Data",
+    title: "Pipeline ETL Modern dengan Apache Arrow",
+    date: "03 MEI 2026",
+    readTime: "9 MIN",
   },
 ];
 
-const TICKER_ITEMS = [
-  "SISTEM AKTIF",
-  "NODE-04 // ONLINE",
-  "BUILD 2026.05.18",
-  "UPTIME 99.97%",
-  "ARTIKEL TERBARU TERSEDIA",
-  "INDEKS DIPERBARUI",
+const STATS = [
+  { label: "ARTIKEL", value: "128" },
+  { label: "KATEGORI", value: "12" },
+  { label: "PEMBACA / BULAN", value: "4.2K" },
+  { label: "TAHUN AKTIF", value: "3" },
 ];
+
+// ─── Helper ───────────────────────────────────────────────────────────────────
+
+function cx(...c: (string | false | undefined)[]) {
+  return c.filter(Boolean).join(" ");
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#c9c9c9] font-mono relative overflow-hidden">
+    <div className="min-h-screen bg-[#d0d0d0] font-mono text-[#1a1a1a] relative overflow-x-hidden">
 
-      {/* ── Grid texture background ── */}
+      {/* ── Background texture ── */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 opacity-[0.04] z-0"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(0deg,transparent,transparent 40px,#000 40px,#000 41px)," +
-            "repeating-linear-gradient(90deg,transparent,transparent 40px,#000 40px,#000 41px)",
+            "repeating-linear-gradient(0deg,transparent,transparent 32px,#000 32px,#000 33px)," +
+            "repeating-linear-gradient(90deg,transparent,transparent 56px,#000 56px,#000 57px)",
         }}
       />
 
-      {/* ── Ticker tape ── */}
-      <div className="relative z-10 border-b border-[#aaa] bg-[#1a1a1a] overflow-hidden h-8 flex items-center">
-        <div className="flex animate-[marquee_20s_linear_infinite] whitespace-nowrap gap-12">
-          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((t, i) => (
-            <span key={i} className="text-[10px] tracking-[0.3em] text-[#e8c830] uppercase">
-              {i % 2 === 0 ? "◆" : "·"} {t}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="relative z-10 px-8 py-10 max-w-4xl">
+      <div className="relative z-10 px-8 py-10 max-w-4xl mx-auto">
 
         {/* ── Page header ── */}
-        <div className="mb-10">
-          <span className="text-[9px] tracking-[0.4em] text-[#777] uppercase">
-            {"// INDEKS UTAMA"}
-          </span>
-          <h2 className="text-[11px] tracking-[0.5em] text-[#555] uppercase mt-1">
-            TERMA//LOG — BERANDA
-          </h2>
+        <header className="mb-12">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-[9px] tracking-[0.35em] text-[#888] uppercase">TERMA{"//"}LOG</span>
+            <span className="h-px flex-1 bg-[#bbb]" />
+            <span className="text-[9px] tracking-[0.2em] text-[#888]">INDEX</span>
+          </div>
+          <h1 className="text-4xl font-black tracking-tighter leading-none uppercase text-[#1a1a1a]">
+            BERANDA
+          </h1>
+          <div className="mt-2 h-[3px] w-16 bg-[#e8c830]" />
+        </header>
+
+        {/* ── Stats bar ── */}
+        <div className="grid grid-cols-4 gap-px bg-[#bbb] border border-[#bbb] mb-12">
+          {STATS.map((s) => (
+            <div key={s.label} className="bg-[#c9c9c9] px-4 py-4 flex flex-col gap-1">
+              <span className="text-2xl font-black tracking-tighter text-[#1a1a1a]">{s.value}</span>
+              <span className="text-[8px] tracking-[0.25em] text-[#777] uppercase">{s.label}</span>
+            </div>
+          ))}
         </div>
 
         {/* ── Featured article ── */}
-        <div className="mb-10 border border-[#aaa] bg-[#bebebe] relative group cursor-pointer">
-          {/* yellow left bar */}
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#e8c830]" />
-          {/* corner ticks */}
-          <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-[#888]" />
-          <div className="absolute bottom-2 left-6 w-3 h-3 border-b border-l border-[#888]" />
+        <section className="mb-12">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase">{"// UNGGULAN"}</span>
+            <span className="h-px flex-1 bg-[#bbb]" />
+          </div>
 
-          <div className="px-8 py-8">
-            <div className="flex items-center gap-4 mb-4">
-              <span className="text-[9px] tracking-[0.3em] bg-[#e8c830] text-[#1a1a1a] px-2 py-[2px] font-bold">
-                {FEATURED.tag}
-              </span>
-              <span className="text-[9px] tracking-[0.2em] text-[#777]">
-                {FEATURED.date}
-              </span>
-              <span className="text-[9px] tracking-[0.2em] text-[#999]">
-                {"// "}{FEATURED.readTime}
-              </span>
+          <Link
+            href="/articles/featured"
+            className="group block bg-[#1a1a1a] p-7 relative overflow-hidden border-l-[3px] border-[#e8c830] transition-all duration-200 hover:shadow-[4px_4px_0_#e8c830]"
+          >
+            {/* corner ticks */}
+            <span className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[#333]" />
+            <span className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[#333]" />
+
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-[9px] tracking-[0.3em] text-[#e8c830]">{FEATURED.tag}</span>
+              <span className="text-[9px] tracking-[0.2em] text-[#555] uppercase">{FEATURED.category}</span>
             </div>
-
-            <h1 className="text-2xl font-black tracking-tight leading-tight text-[#1a1a1a] mb-4 max-w-xl">
+            <h2 className="text-xl font-black tracking-tight leading-snug text-white uppercase mb-3 group-hover:text-[#e8c830] transition-colors duration-150">
               {FEATURED.title}
-            </h1>
-
-            <p className="text-[12px] leading-relaxed text-[#444] max-w-lg tracking-wide">
+            </h2>
+            <p className="text-[12px] text-[#888] leading-relaxed mb-5">
               {FEATURED.excerpt}
             </p>
-
-            <div className="mt-6 flex items-center gap-3">
-              <span className="text-[10px] tracking-[0.3em] text-[#1a1a1a] border-b border-[#e8c830] pb-[1px] uppercase group-hover:text-[#e8c830] transition-colors duration-150">
-                BACA ARTIKEL
+            <div className="flex items-center gap-4">
+              <span className="text-[9px] tracking-[0.2em] text-[#555]">{FEATURED.date}</span>
+              <span className="text-[9px] tracking-[0.2em] text-[#555]">{FEATURED.readTime} READ</span>
+              <span className="ml-auto text-[9px] tracking-[0.3em] text-[#e8c830] group-hover:translate-x-1 transition-transform duration-150">
+                BACA →
               </span>
-              <span className="text-[#e8c830]">→</span>
             </div>
-          </div>
-        </div>
-
-        {/* ── Divider ── */}
-        <div className="flex items-center gap-3 mb-8">
-          <span className="text-[9px] tracking-[0.4em] text-[#888] uppercase">TERBARU</span>
-          <div className="flex-1 h-px bg-[#aaa]" />
-          <div className="w-1 h-1 bg-[#e8c830]" />
-        </div>
+          </Link>
+        </section>
 
         {/* ── Recent articles ── */}
-        <div className="flex flex-col gap-[3px]">
-          {RECENTS.map((a, i) => (
-            <div
-              key={a.id}
-              className="group flex items-start gap-6 px-5 py-4 bg-[#c1c1c1]/70 hover:bg-[#1a1a1a] border border-transparent hover:border-[#333] cursor-pointer transition-colors duration-200 relative overflow-hidden"
-            >
-              {/* index number */}
-              <span className="text-[11px] text-[#aaa] group-hover:text-[#444] w-6 shrink-0 pt-[2px] transition-colors duration-200">
-                {String(i + 1).padStart(2, "0")}
+        <section>
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase">{"// TERBARU"}</span>
+            <span className="h-px flex-1 bg-[#bbb]" />
+            <Link href="/articles" className="text-[9px] tracking-[0.2em] text-[#888] hover:text-[#1a1a1a] transition-colors">
+              SEMUA ARTIKEL →
+            </Link>
+          </div>
+
+          <div className="flex flex-col gap-px bg-[#bbb]">
+            {RECENT.map((art, i) => (
+              <Link
+                key={art.tag}
+                href={`/articles/${art.tag.toLowerCase()}`}
+                className="group flex items-center gap-5 bg-[#c9c9c9] px-5 py-4 hover:bg-[#1a1a1a] transition-colors duration-150 relative"
+              >
+                <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#e8c830] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-150" />
+                <span className="text-[9px] tracking-[0.2em] text-[#aaa] group-hover:text-[#555] w-16 shrink-0">
+                  {art.tag}
+                </span>
+                <span className="text-[9px] tracking-[0.2em] text-[#888] group-hover:text-[#555] w-28 shrink-0 uppercase">
+                  {art.category}
+                </span>
+                <span className="text-[13px] font-semibold tracking-tight text-[#1a1a1a] group-hover:text-white flex-1 transition-colors duration-150">
+                  {art.title}
+                </span>
+                <span className="text-[9px] tracking-[0.2em] text-[#aaa] group-hover:text-[#555] shrink-0 hidden md:block">
+                  {art.date}
+                </span>
+                <span className="text-[9px] tracking-[0.2em] text-[#aaa] group-hover:text-[#555] shrink-0">
+                  {art.readTime}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Footer status ── */}
+        <footer className="mt-16 pt-4 border-t border-[#bbb]">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e8c830] opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e8c830]" />
               </span>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3 mb-1">
-                  <span className="text-[8px] tracking-[0.3em] text-[#888] group-hover:text-[#666] transition-colors duration-200 uppercase">
-                    [{a.tag}]
-                  </span>
-                  <span className="text-[8px] tracking-[0.15em] text-[#aaa] group-hover:text-[#555] transition-colors duration-200">
-                    {a.date}
-                  </span>
-                </div>
-                <h3 className="text-[13px] font-bold text-[#1a1a1a] group-hover:text-white leading-snug tracking-tight transition-colors duration-200">
-                  {a.title}
-                </h3>
-                <p className="text-[11px] text-[#666] group-hover:text-[#999] mt-1 leading-relaxed transition-colors duration-200">
-                  {a.excerpt}
-                </p>
-              </div>
-
-              <span className="text-[9px] tracking-[0.2em] text-[#aaa] group-hover:text-[#555] shrink-0 pt-[2px] transition-colors duration-200">
-                {a.readTime}
-              </span>
-
-              {/* hover accent */}
-              <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#e8c830] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200" />
+              <span className="text-[9px] tracking-[0.2em] text-[#888]">SISTEM AKTIF</span>
             </div>
-          ))}
-        </div>
+            <span className="text-[9px] tracking-[0.2em] text-[#aaa]">
+              TERMA{"//"}LOG © 2026
+            </span>
+          </div>
+        </footer>
 
-        {/* ── Footer note ── */}
-        <div className="mt-12 flex items-center gap-3">
-          <div className="h-px flex-1 bg-[#aaa]" />
-          <span className="text-[8px] tracking-[0.3em] text-[#aaa] uppercase">
-            EOF // INDEKS
-          </span>
-        </div>
       </div>
-
-      <style>{`
-        @keyframes marquee {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
-      `}</style>
     </div>
   );
 }
