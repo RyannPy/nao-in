@@ -49,7 +49,7 @@ export default function AboutPage() {
         {/* ── Page header ── */}
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-[9px] tracking-[0.35em] text-[#888] uppercase">TERMA{"//"}LOG</span>
+            <span className="text-[9px] tracking-[0.35em] text-[#888] uppercase">NAO-IN</span>
             <span className="h-px flex-1 bg-[#bbb]" />
             <span className="text-[9px] tracking-[0.2em] text-[#888]">SYS-006</span>
           </div>
@@ -86,7 +86,7 @@ export default function AboutPage() {
             <p className="text-[12px] text-[#555] leading-relaxed max-w-xl">
               Saya menulis tentang apa yang saya temukan, pecahkan, dan pelajari saat bekerja dengan sistem di dunia nyata.
               Tidak ada tutorial yang terlalu mudah, tidak ada topik yang terlalu esoterik.
-              TERMA{"//"}LOG adalah jurnal teknis saya yang bisa dibaca publik.
+              NAO-IN adalah jurnal teknis saya yang bisa dibaca publik.
             </p>
           </div>
         </div>
@@ -194,7 +194,7 @@ export default function AboutPage() {
               </span>
               <span className="text-[9px] tracking-[0.2em] text-[#888]">SISTEM AKTIF</span>
             </div>
-            <span className="text-[9px] tracking-[0.2em] text-[#aaa]">TERMA{"//"}LOG © 2026</span>
+            <span className="text-[9px] tracking-[0.2em] text-[#aaa]">NAO-IN © 2026</span>
           </div>
         </footer>
 

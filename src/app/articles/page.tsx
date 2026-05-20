@@ -140,7 +140,7 @@ export default function ArticlesPage() {
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-3">
             <span className="text-[9px] tracking-[0.35em] text-[#888] uppercase">
-              TERMA{"//"}LOG
+              NAO-IN
             </span>
             <span className="h-px flex-1 bg-[#bbb]" />
             <span className="text-[9px] tracking-[0.2em] text-[#888]">
@@ -225,7 +225,7 @@ export default function ArticlesPage() {
               </span>
             </div>
             <span className="text-[9px] tracking-[0.2em] text-[#aaa]">
-              TERMA{"//"}LOG © 2026
+              NAO-IN © 2026
             </span>
           </div>
         </footer>
