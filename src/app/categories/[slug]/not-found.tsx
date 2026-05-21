@@ -1,18 +1,16 @@
-// app/articles/[slug]/not-found.tsx
-// Shown when getArticle(slug) returns null and notFound() is called.
+// app/categories/[slug]/not-found.tsx
 
 import Link from "next/link";
 import PageContainer from "@/components/layout/PageContainer";
 import { FONTS } from "@/lib/theme";
 
-export default function ArticleNotFound() {
+export default function CategoryNotFound() {
   return (
     <PageContainer centered style={{ fontFamily: FONTS.mono }}>
-      {/* Error code block */}
       <div className="inline-flex items-center gap-2 bg-[#1a1a1a] px-4 py-2 mb-8">
         <span className="w-1.5 h-1.5 bg-[#e8c830]" />
         <span className="text-[9px] tracking-[0.35em] text-[#555] uppercase">
-          ERR-404
+          ERR-404 / CATEGORY
         </span>
       </div>
 
@@ -22,17 +20,17 @@ export default function ArticleNotFound() {
       <div className="h-[3px] w-12 bg-[#e8c830] mx-auto mb-6" />
 
       <p className="text-[12px] tracking-[0.15em] text-[#777] uppercase mb-2">
-        DOKUMEN TIDAK DITEMUKAN
+        DOMAIN TIDAK DITEMUKAN
       </p>
       <p className="text-[11px] text-[#999] leading-relaxed mb-10">
-        Artikel yang Anda cari tidak ada dalam arsip ini, atau slug tidak valid.
+        Kategori yang Anda cari tidak ada dalam sistem ini.
       </p>
 
       <Link
-        href="/articles"
+        href="/categories"
         className="inline-flex items-center gap-3 bg-[#1a1a1a] border-l-[3px] border-[#e8c830] px-5 py-3 text-[10px] tracking-[0.25em] uppercase text-white hover:bg-[#111] transition-colors duration-150"
       >
-        ← KEMBALI KE ARSIP
+        ← KEMBALI KE KATEGORI
       </Link>
     </PageContainer>
   );

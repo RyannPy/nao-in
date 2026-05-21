@@ -2,6 +2,11 @@
 
 import Link from "next/link";
 import ArticleCard from "@/components/ArticleCard";
+import PageContainer from "@/components/layout/PageContainer";
+import StatusFooter from "@/components/layout/StatusFooter";
+import PageHeader from "@/components/ui/PageHeader";
+import SectionLabel from "@/components/ui/SectionLabel";
+
 // ─── Dummy data ───────────────────────────────────────────────────────────────
 
 const FEATURED = {
@@ -52,154 +57,100 @@ const STATS = [
   { label: "TAHUN AKTIF", value: "3" },
 ];
 
-// ─── Helper ───────────────────────────────────────────────────────────────────
-
-function cx(...c: (string | false | undefined)[]) {
-  return c.filter(Boolean).join(" ");
-}
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#d0d0d0] font-mono text-[#1a1a1a] relative overflow-x-hidden">
-      {/* ── Background texture ── */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 opacity-[0.04] z-0"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg,transparent,transparent 32px,#000 32px,#000 33px)," +
-            "repeating-linear-gradient(90deg,transparent,transparent 56px,#000 56px,#000 57px)",
-        }}
-      />
+    <PageContainer className="font-mono">
+      {/* ── Page header ── */}
+      <PageHeader title="BERANDA" code="PGE-001" />
 
-      <div className="relative z-10 px-8 py-10 max-w-4xl mx-auto">
-        {/* ── Page header ── */}
-        <header className="mb-12">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-[9px] tracking-[0.35em] text-[#888] uppercase">
-              NAO-IN
-            </span>
-            <span className="h-px flex-1 bg-[#bbb]" />
-            <span className="text-[9px] tracking-[0.2em] text-[#888]">
-              PGE-001
-            </span>
-          </div>
-          <h1 className="text-4xl font-black tracking-tighter leading-none uppercase text-[#1a1a1a]">
-            BERANDA
-          </h1>
-          <div className="mt-2 h-0.75 w-16 bg-[#e8c830]" />
-        </header>
-
-        {/* ── Stats bar ── */}
-        <div className="grid grid-cols-4 gap-px bg-[#bbb] border border-[#bbb] mb-12">
-          {STATS.map((s) => (
-            <div
-              key={s.label}
-              className="bg-[#c9c9c9] px-4 py-4 flex flex-col gap-1"
-            >
-              <span className="text-2xl font-black tracking-tighter text-[#1a1a1a]">
-                {s.value}
-              </span>
-              <span className="text-[8px] tracking-[0.25em] text-[#777] uppercase">
-                {s.label}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* ── Featured article ── */}
-        <section className="mb-12">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase">
-              {"// UNGGULAN"}
-            </span>
-            <span className="h-px flex-1 bg-[#bbb]" />
-          </div>
-
-          <Link
-            href="/articles/featured"
-            className="group block bg-[#1a1a1a] p-7 relative overflow-hidden border-l-[3px] border-[#e8c830] transition-all duration-200 hover:shadow-[4px_4px_0_#e8c830]"
+      {/* ── Stats bar ── */}
+      <div className="grid grid-cols-4 gap-px bg-[#bbb] border border-[#bbb] mb-12">
+        {STATS.map((s) => (
+          <div
+            key={s.label}
+            className="bg-[#c9c9c9] px-4 py-4 flex flex-col gap-1"
           >
-            {/* corner ticks */}
-            <span className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[#333]" />
-            <span className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[#333]" />
-
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-[9px] tracking-[0.3em] text-[#e8c830]">
-                {FEATURED.tag}
-              </span>
-              <span className="text-[9px] tracking-[0.2em] text-[#555] uppercase">
-                {FEATURED.category}
-              </span>
-            </div>
-            <h2 className="text-xl font-black tracking-tight leading-snug text-white uppercase mb-3 group-hover:text-[#e8c830] transition-colors duration-150">
-              {FEATURED.title}
-            </h2>
-            <p className="text-[12px] text-[#888] leading-relaxed mb-5">
-              {FEATURED.excerpt}
-            </p>
-            <div className="flex items-center gap-4">
-              <span className="text-[9px] tracking-[0.2em] text-[#555]">
-                {FEATURED.date}
-              </span>
-              <span className="text-[9px] tracking-[0.2em] text-[#555]">
-                {FEATURED.readTime} READ
-              </span>
-              <span className="ml-auto text-[9px] tracking-[0.3em] text-[#e8c830] group-hover:translate-x-1 transition-transform duration-150">
-                BACA →
-              </span>
-            </div>
-          </Link>
-        </section>
-
-        {/* ── Recent articles ── */}
-        <section>
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase">
-              {"// TERBARU"}
+            <span className="text-2xl font-black tracking-tighter text-[#1a1a1a]">
+              {s.value}
             </span>
-            <span className="h-px flex-1 bg-[#bbb]" />
+            <span className="text-[8px] tracking-[0.25em] text-[#777] uppercase">
+              {s.label}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Featured article ── */}
+      <section className="mb-12">
+        <SectionLabel label={"// UNGGULAN"} />
+
+        <Link
+          href="/articles/featured"
+          className="group block bg-[#1a1a1a] p-7 relative overflow-hidden border-l-[3px] border-[#e8c830] transition-all duration-200 hover:shadow-[4px_4px_0_#e8c830]"
+        >
+          {/* corner ticks */}
+          <span className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[#333]" />
+          <span className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[#333]" />
+
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-[9px] tracking-[0.3em] text-[#e8c830]">
+              {FEATURED.tag}
+            </span>
+            <span className="text-[9px] tracking-[0.2em] text-[#555] uppercase">
+              {FEATURED.category}
+            </span>
+          </div>
+          <h2 className="text-xl font-black tracking-tight leading-snug text-white uppercase mb-3 group-hover:text-[#e8c830] transition-colors duration-150">
+            {FEATURED.title}
+          </h2>
+          <p className="text-[12px] text-[#888] leading-relaxed mb-5">
+            {FEATURED.excerpt}
+          </p>
+          <div className="flex items-center gap-4">
+            <span className="text-[9px] tracking-[0.2em] text-[#555]">
+              {FEATURED.date}
+            </span>
+            <span className="text-[9px] tracking-[0.2em] text-[#555]">
+              {FEATURED.readTime} READ
+            </span>
+            <span className="ml-auto text-[9px] tracking-[0.3em] text-[#e8c830] group-hover:translate-x-1 transition-transform duration-150">
+              BACA →
+            </span>
+          </div>
+        </Link>
+      </section>
+
+      {/* ── Recent articles ── */}
+      <section>
+        <SectionLabel
+          label={"// TERBARU"}
+          rightContent={
             <Link
               href="/articles"
               className="text-[9px] tracking-[0.2em] text-[#888] hover:text-[#1a1a1a] transition-colors"
             >
               SEMUA ARTIKEL →
             </Link>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#bbb]">
-            {RECENT.map((art) => (
-              <ArticleCard
-                key={art.tag}
-                tag={art.tag}
-                title={art.title}
-                category={art.category}
-                date={art.date}
-                href={`/articles/${art.tag.toLowerCase()}`}
-              />
-            ))}
-          </div>
-        </section>
+          }
+        />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#bbb]">
+          {RECENT.map((art) => (
+            <ArticleCard
+              key={art.tag}
+              tag={art.tag}
+              title={art.title}
+              category={art.category}
+              date={art.date}
+              href={`/articles/${art.tag.toLowerCase()}`}
+            />
+          ))}
+        </div>
+      </section>
 
-        {/* ── Footer status ── */}
-        <footer className="mt-16 pt-4 border-t border-[#bbb]">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e8c830] opacity-60" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e8c830]" />
-              </span>
-              <span className="text-[9px] tracking-[0.2em] text-[#888]">
-                SYSTEM ACTIVE
-              </span>
-            </div>
-            <span className="text-[9px] tracking-[0.2em] text-[#aaa]">
-              NAO-IN © 2026
-            </span>
-          </div>
-        </footer>
-      </div>
-    </div>
+      {/* ── Footer status ── */}
+      <StatusFooter />
+    </PageContainer>
   );
 }

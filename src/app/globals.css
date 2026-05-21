@@ -24,3 +24,92 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   NAO-IN — Category Card Hover Styles (pure CSS, no JS state)
+   Moved from categories/page.tsx inline <style> for maintainability.
+═══════════════════════════════════════════════════════════════════════════════ */
+
+.cat-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #c9c9c9;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+  min-height: 100%;
+}
+.cat-card:hover { background: #1a1a1a; }
+
+.cat-id {
+  color: #aaa;
+  transition: color 0.2s ease;
+}
+.cat-card:hover .cat-id { color: #555; }
+
+.cat-diamond {
+  width: 6px; height: 6px;
+  transform: rotate(45deg);
+  border: 1px solid #bbb;
+  background: transparent;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.cat-card:hover .cat-diamond {
+  border-color: #e8c830;
+  background: #e8c830;
+}
+
+.cat-icon {
+  color: #5a5a5a;
+  transition: color 0.2s ease;
+}
+.cat-card:hover .cat-icon { color: #c0c0c0; }
+
+.cat-divider {
+  border-top: 1px solid #bbb;
+  transition: border-color 0.2s ease;
+}
+.cat-card:hover .cat-divider { border-color: #333; }
+
+.cat-name {
+  color: #1a1a1a;
+  transition: color 0.2s ease;
+}
+.cat-card:hover .cat-name { color: #ffffff; }
+
+.cat-accent-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: #e8c830;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.2s ease;
+}
+.cat-card:hover .cat-accent-bar { transform: scaleY(1); }
+
+.cat-corner-tick {
+  position: absolute;
+  bottom: 8px; right: 8px;
+  width: 8px; height: 8px;
+  border-bottom: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+  transition: border-color 0.2s ease;
+}
+.cat-card:hover .cat-corner-tick { border-color: #444; }
+
+.cat-scanline {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.04) 3px,
+    rgba(0,0,0,0.04) 4px
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.cat-card:hover .cat-scanline { opacity: 1; }

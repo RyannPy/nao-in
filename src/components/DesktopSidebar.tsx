@@ -4,10 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// ─── Tiny cx helper — no multiline template literals ─────────────────────────
-function cx(...classes: (string | false | null | undefined)[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import { cx } from "@/lib/theme";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

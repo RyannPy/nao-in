@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { JSX } from "react";
+import PageContainer from "@/components/layout/PageContainer";
+import StatusFooter from "@/components/layout/StatusFooter";
+import PageHeader from "@/components/ui/PageHeader";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -124,207 +128,76 @@ const ICONS: Record<string, () => JSX.Element> = {
 
 export default function CategoriesPage() {
   return (
-    <div
-      className="min-h-screen bg-[#d0d0d0] font-mono text-[#1a1a1a] relative overflow-x-hidden"
-    >
-      {/* Inline CSS — pure CSS hover, no JS state */}
-      <style>{`
-        .cat-card {
-          display: flex;
-          flex-direction: column;
-          position: relative;
-          background: #c9c9c9;
-          overflow: hidden;
-          transition: background-color 0.2s ease;
-          min-height: 100%;
-        }
-        .cat-card:hover { background: #1a1a1a; }
+    <PageContainer className="font-mono" innerClassName="px-8 py-10 max-w-5xl mx-auto">
+      {/* ── Page header ── */}
+      <PageHeader title="CATEGORY" code="PGE-003" className="mb-10" />
 
-        .cat-id {
-          color: #aaa;
-          transition: color 0.2s ease;
-        }
-        .cat-card:hover .cat-id { color: #555; }
-
-        .cat-diamond {
-          width: 6px; height: 6px;
-          transform: rotate(45deg);
-          border: 1px solid #bbb;
-          background: transparent;
-          transition: border-color 0.2s ease, background 0.2s ease;
-        }
-        .cat-card:hover .cat-diamond {
-          border-color: #e8c830;
-          background: #e8c830;
-        }
-
-        .cat-icon {
-          color: #5a5a5a;
-          transition: color 0.2s ease;
-        }
-        .cat-card:hover .cat-icon { color: #c0c0c0; }
-
-        .cat-divider {
-          border-top: 1px solid #bbb;
-          transition: border-color 0.2s ease;
-        }
-        .cat-card:hover .cat-divider { border-color: #333; }
-
-        .cat-name {
-          color: #1a1a1a;
-          transition: color 0.2s ease;
-        }
-        .cat-card:hover .cat-name { color: #ffffff; }
-
-        .cat-accent-bar {
-          position: absolute;
-          left: 0; top: 0; bottom: 0;
-          width: 3px;
-          background: #e8c830;
-          transform: scaleY(0);
-          transform-origin: bottom;
-          transition: transform 0.2s ease;
-        }
-        .cat-card:hover .cat-accent-bar { transform: scaleY(1); }
-
-        .cat-corner-tick {
-          position: absolute;
-          bottom: 8px; right: 8px;
-          width: 8px; height: 8px;
-          border-bottom: 1px solid #bbb;
-          border-right: 1px solid #bbb;
-          transition: border-color 0.2s ease;
-        }
-        .cat-card:hover .cat-corner-tick { border-color: #444; }
-
-        .cat-scanline {
-          pointer-events: none;
-          position: absolute;
-          inset: 0;
-          background: repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 3px,
-            rgba(0,0,0,0.04) 3px,
-            rgba(0,0,0,0.04) 4px
-          );
-          opacity: 0;
-          transition: opacity 0.2s ease;
-        }
-        .cat-card:hover .cat-scanline { opacity: 1; }
-      `}</style>
-
-      {/* ── Background texture ── */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 opacity-[0.04] z-0"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg,transparent,transparent 32px,#000 32px,#000 33px)," +
-            "repeating-linear-gradient(90deg,transparent,transparent 56px,#000 56px,#000 57px)",
-        }}
-      />
-
-      <div className="relative z-10 px-8 py-10 max-w-5xl mx-auto">
-
-        {/* ── Page header ── */}
-        <header className="mb-10">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-[9px] tracking-[0.35em] text-[#888] uppercase">
-              NAO-IN
-            </span>
-            <span className="h-px flex-1 bg-[#bbb]" />
-            <span className="text-[9px] tracking-[0.2em] text-[#888]">
-              PGE-003
-            </span>
-          </div>
-          <h1 className="text-4xl font-black tracking-tighter leading-none uppercase text-[#1a1a1a]">
-            CATEGORY
-          </h1>
-          <div className="mt-2 h-0.75 w-16 bg-[#e8c830]" />
-        </header>
-
-        {/* ── Section label ── */}
-        <div className="flex items-center gap-2 mb-8">
-          <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase">
-            {"// FILE INDEX"}
-          </span>
-          <span className="h-px flex-1 bg-[#bbb]" />
+      {/* ── Section label ── */}
+      <SectionLabel
+        label={"// FILE INDEX"}
+        className="mb-8"
+        rightContent={
           <span className="text-[9px] tracking-[0.2em] text-[#888]">
             {CATEGORIES.length} DOMAIN
           </span>
-        </div>
+        }
+      />
 
-        {/* ── Category grid — full viewport height minus header ── */}
-        <div
-          className="grid gap-px bg-[#b0b0b0]"
-          style={{
-            gridTemplateColumns: "repeat(5, 1fr)",
-            /* Tinggi penuh: kurangi header ~260px, sisanya dibagi rata */
-            height: "calc(100vh - 280px)",
-            minHeight: "400px",
-          }}
-        >
-          {CATEGORIES.map((cat) => {
-            const Icon = ICONS[cat.slug];
-            return (
-              <Link
-                key={cat.id}
-                href={`/categories/${cat.slug}`}
-                className="cat-card"
-              >
-                {/* Accent bar kiri */}
-                <span className="cat-accent-bar" />
+      {/* ── Category grid — full viewport height minus header ── */}
+      <div
+        className="grid gap-px bg-[#b0b0b0]"
+        style={{
+          gridTemplateColumns: "repeat(5, 1fr)",
+          /* Tinggi penuh: kurangi header ~260px, sisanya dibagi rata */
+          height: "calc(100vh - 280px)",
+          minHeight: "400px",
+        }}
+      >
+        {CATEGORIES.map((cat) => {
+          const Icon = ICONS[cat.slug];
+          return (
+            <Link
+              key={cat.id}
+              href={`/categories/${cat.slug}`}
+              className="cat-card"
+            >
+              {/* Accent bar kiri */}
+              <span className="cat-accent-bar" />
 
-                {/* ID row */}
-                <div className="flex items-center justify-between px-3 pt-3 pb-1 shrink-0">
-                  <span className="cat-id text-[7px] tracking-[0.28em] uppercase leading-none">
-                    {cat.id}
-                  </span>
-                  <span className="cat-diamond" />
+              {/* ID row */}
+              <div className="flex items-center justify-between px-3 pt-3 pb-1 shrink-0">
+                <span className="cat-id text-[7px] tracking-[0.28em] uppercase leading-none">
+                  {cat.id}
+                </span>
+                <span className="cat-diamond" />
+              </div>
+
+              {/* Icon — mengisi sisa ruang secara vertikal */}
+              <div className="flex flex-1 items-center justify-center px-6 py-4">
+                <div className="cat-icon w-full h-full" style={{ maxWidth: "96px", maxHeight: "96px" }}>
+                  <Icon />
                 </div>
+              </div>
 
-                {/* Icon — mengisi sisa ruang secara vertikal */}
-                <div className="flex flex-1 items-center justify-center px-6 py-4">
-                  <div className="cat-icon w-full h-full" style={{ maxWidth: "96px", maxHeight: "96px" }}>
-                    <Icon />
-                  </div>
-                </div>
+              {/* Name label */}
+              <div className="cat-divider px-3 pb-4 pt-2 shrink-0">
+                <span className="cat-name block text-[11px] font-bold tracking-[0.22em] uppercase leading-none">
+                  {cat.name}
+                </span>
+              </div>
 
-                {/* Name label */}
-                <div className="cat-divider px-3 pb-4 pt-2 shrink-0">
-                  <span className="cat-name block text-[11px] font-bold tracking-[0.22em] uppercase leading-none">
-                    {cat.name}
-                  </span>
-                </div>
+              {/* Corner tick */}
+              <span className="cat-corner-tick" />
 
-                {/* Corner tick */}
-                <span className="cat-corner-tick" />
-
-                {/* Scanline overlay */}
-                <span className="cat-scanline" />
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* ── Footer ── */}
-        <footer className="mt-8 pt-4 border-t border-[#bbb]">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e8c830] opacity-60" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e8c830]" />
-              </span>
-              <span className="text-[9px] tracking-[0.2em] text-[#888]">SYSTEM ACTIVE</span>
-            </div>
-            <span className="text-[9px] tracking-[0.2em] text-[#aaa]">
-              NAO-IN © 2026
-            </span>
-          </div>
-        </footer>
-
+              {/* Scanline overlay */}
+              <span className="cat-scanline" />
+            </Link>
+          );
+        })}
       </div>
-    </div>
+
+      {/* ── Footer ── */}
+      <StatusFooter className="mt-8" />
+    </PageContainer>
   );
 }
