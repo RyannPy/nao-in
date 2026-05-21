@@ -31,7 +31,7 @@ export default async function CategorySlugPage({ params }: Props) {
   const meta = getCategoryMeta(slug);
   if (!meta) notFound();
 
-  const articles = getArticlesByCategory(slug);
+  const articles = await getArticlesByCategory(slug);
 
   return (
     <PageContainer className="font-mono" innerClassName="px-6 md:px-10 py-10 max-w-5xl mx-auto">

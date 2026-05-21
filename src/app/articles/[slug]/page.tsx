@@ -20,7 +20,7 @@ interface RelatedArticle {
   date: string;
 }
 
-// ─── Dummy data — replace with your real data source ─────────────────────────
+// ─── Dummy data ─────────────────────────────────────────────────────────────
 
 import { getArticleBySlug } from "@/lib/articles";
 
@@ -47,12 +47,6 @@ const RELATED: RelatedArticle[] = [
     date: "07 APR 2026",
   },
 ];
-
-// ─── Data fetcher — replace with your DB/API call ─────────────────────────────
-
-function getArticle(slug: string) {
-  return getArticleBySlug(slug);
-}
 
 // ─── Prose renderer ───────────────────────────────────────────────────────────
 // Parses the markdown-lite content string into styled JSX blocks.
@@ -125,7 +119,7 @@ interface Props {
 export default async function ArticleSlugPage({ params }: Props) {
   const { slug } = await params;
 
-  const article = getArticle(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
   return (

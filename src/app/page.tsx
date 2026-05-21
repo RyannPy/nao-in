@@ -7,59 +7,34 @@ import StatusFooter from "@/components/layout/StatusFooter";
 import PageHeader from "@/components/ui/PageHeader";
 import SectionLabel from "@/components/ui/SectionLabel";
 
-// ─── Dummy data ───────────────────────────────────────────────────────────────
 
-const FEATURED = {
-  tag: "ART-001",
-  category: "Sistem",
-  title: "Arsitektur Jaringan Terdistribusi pada Era Komputasi Tepi",
-  excerpt:
-    "Bagaimana node-node kecil di ujung jaringan mengubah cara kita merancang sistem skala besar — sebuah tinjauan teknis dari lapangan.",
-  date: "18 MEI 2026",
-  readTime: "12 MIN",
-};
+import { getArticlesFeatured, getArticlesRecent, getCountArticles } from "@/lib/articles";
 
-const RECENT = [
-  {
-    tag: "ART-002",
-    category: "Infrastruktur",
-    title: "Kontainer vs VM: Mana yang Tepat untuk Workload Anda?",
-    date: "15 MEI 2026",
-    readTime: "8 MIN",
-  },
-  {
-    tag: "ART-003",
-    category: "Keamanan",
-    title: "Zero-Trust: Filosofi, Bukan Sekadar Produk",
-    date: "12 MEI 2026",
-    readTime: "10 MIN",
-  },
-  {
-    tag: "ART-004",
-    category: "Pengembangan",
-    title: "Rust di Tahun 2026: Apakah Sudah Waktunya Beralih?",
-    date: "08 MEI 2026",
-    readTime: "15 MIN",
-  },
-  {
-    tag: "ART-005",
-    category: "Data",
-    title: "Pipeline ETL Modern dengan Apache Arrow",
-    date: "03 MEI 2026",
-    readTime: "9 MIN",
-  },
-];
-
-const STATS = [
-  { label: "ARTICLES", value: "128" },
-  { label: "CATEGORIES", value: "12" },
-  { label: "READERS / MONTH", value: "4.2K" },
-  { label: "YEARS ACTIVE", value: "3" },
-];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function HomePage() {
+export default async function HomePage() {
+
+  
+const FEATURED = await getArticlesFeatured();
+const RECENT = await getArticlesRecent();
+
+if (!FEATURED) {
+  return <div>No featured article found.</div>;
+}
+
+const totalArticles = await getCountArticles();
+
+
+const STATS = [
+  { label: "ARTICLES", value: totalArticles },
+  { label: "CATEGORIES", value: "5" },
+  { label: "READERS / MONTH", value: "4.2K" },
+  { label: "YEARS ACTIVE", value: "1" },
+];
+
+
+
   return (
     <PageContainer className="font-mono">
       {/* ── Page header ── */}
@@ -87,7 +62,7 @@ export default function HomePage() {
         <SectionLabel label={"// FEATURED"} />
 
         <Link
-          href="/articles/featured"
+          href={`/articles/${FEATURED.slug}`}
           className="group block bg-[#1a1a1a] p-7 relative overflow-hidden border-l-[3px] border-[#e8c830] transition-all duration-200 hover:shadow-[4px_4px_0_#e8c830]"
         >
           {/* corner ticks */}
@@ -111,9 +86,6 @@ export default function HomePage() {
           <div className="flex items-center gap-4">
             <span className="text-[9px] tracking-[0.2em] text-[#555]">
               {FEATURED.date}
-            </span>
-            <span className="text-[9px] tracking-[0.2em] text-[#555]">
-              {FEATURED.readTime} READ
             </span>
             <span className="ml-auto text-[9px] tracking-[0.3em] text-[#e8c830] group-hover:translate-x-1 transition-transform duration-150">
               READ →
@@ -143,7 +115,7 @@ export default function HomePage() {
               title={art.title}
               category={art.category}
               date={art.date}
-              href={`/articles/${art.tag.toLowerCase()}`}
+              href={`/articles/${art.slug}`}
             />
           ))}
         </div>

@@ -14,9 +14,6 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import { getAllArticles } from "@/lib/articles";
 
 const ARTICLES = await getAllArticles();
-console.log(ARTICLES);
-
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ArticlesPage() {
