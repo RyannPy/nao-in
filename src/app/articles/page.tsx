@@ -13,90 +13,7 @@ function cx(...c: (string | false | undefined)[]) {
 }
 
 // ─── Dummy data ───────────────────────────────────────────────────────────────
-
-const ALL_ARTICLES = [
-  {
-    tag: "ART-001",
-    category: "Sistem",
-    title: "Arsitektur Jaringan Terdistribusi pada Era Komputasi Tepi",
-    date: "18 MEI 2026",
-    readTime: "12 MIN",
-    status: "PUBLISH",
-  },
-  {
-    tag: "ART-002",
-    category: "Infrastruktur",
-    title: "Kontainer vs VM: Mana yang Tepat untuk Workload Anda?",
-    date: "15 MEI 2026",
-    readTime: "8 MIN",
-    status: "PUBLISH",
-  },
-  {
-    tag: "ART-003",
-    category: "Keamanan",
-    title: "Zero-Trust: Filosofi, Bukan Sekadar Produk",
-    date: "12 MEI 2026",
-    readTime: "10 MIN",
-    status: "PUBLISH",
-  },
-  {
-    tag: "ART-004",
-    category: "Pengembangan",
-    title: "Rust di Tahun 2026: Apakah Sudah Waktunya Beralih?",
-    date: "08 MEI 2026",
-    readTime: "15 MIN",
-    status: "PUBLISH",
-  },
-  {
-    tag: "ART-005",
-    category: "Data",
-    title: "Pipeline ETL Modern dengan Apache Arrow",
-    date: "03 MEI 2026",
-    readTime: "9 MIN",
-    status: "PUBLISH",
-  },
-  {
-    tag: "ART-006",
-    category: "Sistem",
-    title: "eBPF: Kernel Programming Tanpa Risiko",
-    date: "28 APR 2026",
-    readTime: "11 MIN",
-    status: "PUBLISH",
-  },
-  {
-    tag: "ART-007",
-    category: "Keamanan",
-    title: "Supply Chain Attack: Anatomi dan Mitigasi",
-    date: "21 APR 2026",
-    readTime: "13 MIN",
-    status: "PUBLISH",
-  },
-  {
-    tag: "ART-008",
-    category: "Pengembangan",
-    title: "WASM di Server: Bukan Lagi Eksperimen",
-    date: "14 APR 2026",
-    readTime: "7 MIN",
-    status: "PUBLISH",
-  },
-  {
-    tag: "ART-009",
-    category: "Data",
-    title: "Columnar Storage: Mengapa DuckDB Sangat Cepat?",
-    date: "07 APR 2026",
-    readTime: "10 MIN",
-    status: "PUBLISH",
-  },
-];
-
-const CATEGORIES = [
-  "SEMUA",
-  "Sistem",
-  "Infrastruktur",
-  "Keamanan",
-  "Pengembangan",
-  "Data",
-];
+import { ARTICLES } from "@/data/articles";
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -104,7 +21,7 @@ export default function ArticlesPage() {
   const [activeCategory, setActiveCategory] = useState("SEMUA");
   const [search, setSearch] = useState("");
 
-  const filtered = ALL_ARTICLES.filter((a) => {
+  const filtered = ARTICLES.filter((a) => {
     const matchCat =
       activeCategory === "SEMUA" || a.category === activeCategory;
     const matchSearch =
@@ -159,28 +76,10 @@ export default function ArticlesPage() {
           />
         </div>
 
-        {/* ── Category filter ── */}
-        <div className="flex flex-wrap gap-0.75 mb-8">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={cx(
-                "px-4 py-2 text-[9px] tracking-[0.25em] uppercase transition-all duration-150 border",
-                activeCategory === cat
-                  ? "bg-[#1a1a1a] text-[#e8c830] border-[#1a1a1a]"
-                  : "bg-[#c1c1c1] text-[#666] border-[#b0b0b0] hover:bg-[#bbb] hover:text-[#1a1a1a]",
-              )}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
         {/* ── Count indicator ── */}
         <div className="flex items-center gap-3 mb-4">
           <span className="text-[9px] tracking-[0.3em] text-[#888]">
-            {"// MENAMPILKAN"} {filtered.length} {"/"} {ALL_ARTICLES.length}{" "}
+            {"// MENAMPILKAN"} {filtered.length} {"/"} {ARTICLES.length}{" "}
             {"HASIL"}
           </span>
           <span className="h-px flex-1 bg-[#bbb]" />
@@ -190,12 +89,12 @@ export default function ArticlesPage() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-[#bbb] border border-[#bbb]">
           {filtered.map((art) => (
             <ArticleCard
-              key={art.tag}
-              tag={art.tag}
+              key={art.id}
+              tag={art.id}
               title={art.title}
               category={art.category}
               date={art.date}
-              href={`/articles/${art.tag.toLowerCase()}`}
+              href={`/articles/${art.slug}`}
             />
           ))}
         </div>
@@ -209,7 +108,7 @@ export default function ArticlesPage() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e8c830]" />
               </span>
               <span className="text-[9px] tracking-[0.2em] text-[#888]">
-                SISTEM AKTIF
+                SYSTEM ACTIVE
               </span>
             </div>
             <span className="text-[9px] tracking-[0.2em] text-[#aaa]">

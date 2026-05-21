@@ -316,7 +316,7 @@ export default function CategoriesPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e8c830] opacity-60" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e8c830]" />
               </span>
-              <span className="text-[9px] tracking-[0.2em] text-[#888]">SISTEM AKTIF</span>
+              <span className="text-[9px] tracking-[0.2em] text-[#888]">SYSTEM ACTIVE</span>
             </div>
             <span className="text-[9px] tracking-[0.2em] text-[#aaa]">
               NAO-IN © 2026

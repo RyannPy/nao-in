@@ -40,10 +40,6 @@ const TEXTURE_STYLE: React.CSSProperties = {
     "repeating-linear-gradient(90deg,transparent,transparent 48px,#000 48px,#000 49px)",
 };
 
-const COURIER: React.CSSProperties = {
-  fontFamily: "'Courier New', Courier, monospace",
-};
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function DesktopSidebar({
@@ -71,7 +67,6 @@ export default function DesktopSidebar({
         </span>
         <h1
           className="text-[#1a1a1a] font-black text-xl tracking-tighter leading-none font-mono uppercase"
-          style={COURIER}
         >
           {siteTitle}
         </h1>
