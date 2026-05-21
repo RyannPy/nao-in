@@ -51,10 +51,10 @@ const RECENT = [
 ];
 
 const STATS = [
-  { label: "ARTIKEL", value: "128" },
-  { label: "KATEGORI", value: "12" },
-  { label: "PEMBACA / BULAN", value: "4.2K" },
-  { label: "TAHUN AKTIF", value: "3" },
+  { label: "ARTICLES", value: "128" },
+  { label: "CATEGORIES", value: "12" },
+  { label: "READERS / MONTH", value: "4.2K" },
+  { label: "YEARS ACTIVE", value: "3" },
 ];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -63,7 +63,7 @@ export default function HomePage() {
   return (
     <PageContainer className="font-mono">
       {/* ── Page header ── */}
-      <PageHeader title="BERANDA" code="PGE-001" />
+      <PageHeader title="INDEX" code="PGE-001" />
 
       {/* ── Stats bar ── */}
       <div className="grid grid-cols-4 gap-px bg-[#bbb] border border-[#bbb] mb-12">
@@ -84,7 +84,7 @@ export default function HomePage() {
 
       {/* ── Featured article ── */}
       <section className="mb-12">
-        <SectionLabel label={"// UNGGULAN"} />
+        <SectionLabel label={"// FEATURED"} />
 
         <Link
           href="/articles/featured"
@@ -116,7 +116,7 @@ export default function HomePage() {
               {FEATURED.readTime} READ
             </span>
             <span className="ml-auto text-[9px] tracking-[0.3em] text-[#e8c830] group-hover:translate-x-1 transition-transform duration-150">
-              BACA →
+              READ →
             </span>
           </div>
         </Link>
@@ -125,13 +125,13 @@ export default function HomePage() {
       {/* ── Recent articles ── */}
       <section>
         <SectionLabel
-          label={"// TERBARU"}
+          label={"// LATEST"}
           rightContent={
             <Link
               href="/articles"
               className="text-[9px] tracking-[0.2em] text-[#888] hover:text-[#1a1a1a] transition-colors"
             >
-              SEMUA ARTIKEL →
+              ALL ARTICLES →
             </Link>
           }
         />

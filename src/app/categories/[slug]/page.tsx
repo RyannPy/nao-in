@@ -46,7 +46,7 @@ export default async function CategorySlugPage({ params }: Props) {
           <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
             ←
           </span>
-          KATEGORI
+          CATEGORIES
         </Link>
         <span className="h-3 w-px bg-[#bbb]" />
         <span className="text-[9px] tracking-[0.25em] text-[#aaa] uppercase">
@@ -71,7 +71,7 @@ export default async function CategorySlugPage({ params }: Props) {
       {/* ════════════════════════════════════════════
           2. METADATA / SUBTITLE ROW
       ════════════════════════════════════════════ */}
-      <MetaRow dotLabel="DOMAIN ARSIP" labels={[meta.id, "NAO-IN"]} />
+      <MetaRow dotLabel="ARCHIVE DOMAIN" labels={[meta.id, "NAO-IN"]} />
 
       {/* ════════════════════════════════════════════
           ACCENT DIVIDER
@@ -82,7 +82,7 @@ export default async function CategorySlugPage({ params }: Props) {
           3. COUNTER + SECTION LABEL
       ════════════════════════════════════════════ */}
       <SectionLabel
-        label={"// ARTIKEL"}
+        label={"// ARTICLES"}
         className="mb-6"
         rightContent={
           <div className="flex items-center gap-0 bg-[#1a1a1a]">
@@ -117,17 +117,17 @@ export default async function CategorySlugPage({ params }: Props) {
           </div>
 
           <p className="text-[12px] tracking-[0.15em] text-[#999] uppercase mt-2">
-            BELUM ADA ARTIKEL DALAM KATEGORI INI
+            NO ARTICLES IN THIS CATEGORY
           </p>
           <p className="text-[11px] text-[#aaa] leading-relaxed max-w-xs text-center">
-            Arsip untuk domain ini masih kosong. Periksa kembali nanti.
+            The archive for this domain is currently empty. Please check back later.
           </p>
 
           <Link
             href="/categories"
             className="mt-4 inline-flex items-center gap-3 bg-[#1a1a1a] border-l-[3px] border-[#e8c830] px-5 py-3 text-[10px] tracking-[0.25em] uppercase text-white hover:bg-[#111] transition-colors duration-150"
           >
-            ← KEMBALI KE KATEGORI
+            ← BACK TO CATEGORIES
           </Link>
         </div>
       ) : (
@@ -158,14 +158,14 @@ export default async function CategorySlugPage({ params }: Props) {
             <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
               ←
             </span>
-            KEMBALI KE KATEGORI
+            BACK TO CATEGORIES
           </Link>
 
           <Link
             href="/articles"
             className="group inline-flex items-center gap-3 bg-transparent border border-[#bbb] px-5 py-3 text-[10px] tracking-[0.25em] uppercase text-[#666] hover:border-[#1a1a1a] hover:text-[#1a1a1a] transition-colors duration-150"
           >
-            SEMUA ARTIKEL
+            ALL ARTICLES
             <span className="transition-transform duration-150 group-hover:translate-x-0.5">
               →
             </span>
@@ -175,11 +175,11 @@ export default async function CategorySlugPage({ params }: Props) {
 
       {/* ── Footer status panel ── */}
       <StatusFooter
-        statusText="SISTEM AKTIF"
+        statusText="SYSTEM ACTIVE"
         className="mt-12"
         extraInfo={
           <span className="text-[8px] tracking-[0.15em] text-[#aaa] uppercase">
-            {articles.length} ARTIKEL / {meta.label}
+            {articles.length} ARTICLES / {meta.label}
           </span>
         }
       />

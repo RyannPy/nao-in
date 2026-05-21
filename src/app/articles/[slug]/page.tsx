@@ -142,7 +142,7 @@ export default async function ArticleSlugPage({ params }: Props) {
           <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
             ←
           </span>
-          ARTIKEL
+          ARTICLES
         </Link>
 
         <span className="h-3 w-px bg-[#bbb]" />
@@ -196,7 +196,7 @@ export default async function ArticleSlugPage({ params }: Props) {
       <article className="mb-16">
         {/* Thin top border */}
         <SectionLabel
-          label={"// KONTEN"}
+          label={"// CONTENT"}
           className="mb-8"
           rightContent={<span className="w-1 h-1 bg-[#bbb]" />}
         />
@@ -222,7 +222,7 @@ export default async function ArticleSlugPage({ params }: Props) {
           7A. RELATED ARTICLES
       ════════════════════════════════════════════ */}
       <section className="mb-12">
-        <SectionLabel label={"// ARTIKEL TERKAIT"} className="mb-5" />
+        <SectionLabel label={"// RELATED ARTICLES"} className="mb-5" />
 
         <div className="flex flex-col gap-px bg-[#bbb] border border-[#bbb]">
           {RELATED.map((rel) => (
@@ -263,14 +263,14 @@ export default async function ArticleSlugPage({ params }: Props) {
           <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
             ←
           </span>
-          KEMBALI KE ARSIP
+          BACK TO ARCHIVE
         </Link>
 
         <Link
           href="/categories"
           className="group inline-flex items-center gap-3 bg-transparent border border-[#bbb] px-5 py-3 text-[10px] tracking-[0.25em] uppercase text-[#666] hover:border-[#1a1a1a] hover:text-[#1a1a1a] transition-colors duration-150"
         >
-          LIHAT KATEGORI
+          VIEW CATEGORIES
           <span className="transition-transform duration-150 group-hover:translate-x-0.5">
             →
           </span>
@@ -279,7 +279,7 @@ export default async function ArticleSlugPage({ params }: Props) {
 
       {/* ── Footer status ── */}
       <StatusFooter
-        statusText="SISTEM AKTIF"
+        statusText="SYSTEM ACTIVE"
         className="mt-0"
         extraInfo={
           <span className="text-[8px] tracking-[0.15em] text-[#aaa]">

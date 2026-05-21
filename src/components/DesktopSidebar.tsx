@@ -72,7 +72,7 @@ export default function DesktopSidebar({
       {/* ── Section label ── */}
       <div className="px-5 mb-2">
         <span className="text-[9px] font-mono tracking-[0.3em] text-[#888] uppercase">
-          {"// NAVIGASI"}
+          {"// NAVIGATION"}
         </span>
       </div>
 

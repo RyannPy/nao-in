@@ -22,17 +22,17 @@ export default function ArticleNotFound() {
       <div className="h-[3px] w-12 bg-[#e8c830] mx-auto mb-6" />
 
       <p className="text-[12px] tracking-[0.15em] text-[#777] uppercase mb-2">
-        DOKUMEN TIDAK DITEMUKAN
+        DOCUMENT NOT FOUND
       </p>
       <p className="text-[11px] text-[#999] leading-relaxed mb-10">
-        Artikel yang Anda cari tidak ada dalam arsip ini, atau slug tidak valid.
+        The article you are looking for is not in this archive, or the slug is invalid.
       </p>
 
       <Link
         href="/articles"
         className="inline-flex items-center gap-3 bg-[#1a1a1a] border-l-[3px] border-[#e8c830] px-5 py-3 text-[10px] tracking-[0.25em] uppercase text-white hover:bg-[#111] transition-colors duration-150"
       >
-        ← KEMBALI KE ARSIP
+        ← BACK TO ARCHIVE
       </Link>
     </PageContainer>
   );

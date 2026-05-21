@@ -154,7 +154,7 @@ export default function AboutPage() {
 
       {/* ── Contact ── */}
       <div className="mb-10">
-        <SectionLabel label={"// KONTAK"} />
+        <SectionLabel label={"// CONTACT"} />
         <div className="flex flex-col gap-px bg-[#bbb] border border-[#bbb]">
           {CONTACT.map((c) => (
             <Link
@@ -183,7 +183,7 @@ export default function AboutPage() {
       <div className="border border-[#bbb] bg-[#c4c4c4] px-6 py-5 relative">
         <span className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[#bbb]" />
         <span className="text-[9px] tracking-[0.25em] text-[#888] block mb-2">
-          {"// CATATAN"}
+          {"// DISCLAIMER"}
         </span>
         <p className="text-[11px] text-[#666] leading-relaxed">
           Semua opini, analisis, dan kesalahan di blog ini adalah milik saya

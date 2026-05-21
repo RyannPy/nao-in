@@ -30,7 +30,7 @@ export default function ArticlesPage() {
   return (
     <PageContainer className="font-mono">
       {/* ── Page header ── */}
-      <PageHeader title="ARTIKEL" code="PGE-002" className="mb-10" />
+      <PageHeader title="ARTICLES" code="PGE-002" className="mb-10" />
 
       {/* ── Search bar ── */}
       <div className="mb-6 relative">
@@ -41,14 +41,14 @@ export default function ArticlesPage() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="CARI ARTIKEL..."
+          placeholder="SEARCH ARTICLES..."
           className="w-full bg-[#c1c1c1] border border-[#b0b0b0] pl-10 pr-4 py-3 text-[12px] tracking-[0.15em] text-[#1a1a1a] placeholder-[#999] outline-none focus:border-[#1a1a1a] focus:bg-[#c8c8c8] transition-colors duration-150"
         />
       </div>
 
       {/* ── Count indicator ── */}
       <SectionLabel
-        label={`// MENAMPILKAN ${filtered.length} / ${ARTICLES.length} HASIL`}
+        label={`// SHOWING ${filtered.length} / ${ARTICLES.length} RESULTS`}
       />
 
       {/* ── Article list ── */}

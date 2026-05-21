@@ -20,17 +20,17 @@ export default function CategoryNotFound() {
       <div className="h-[3px] w-12 bg-[#e8c830] mx-auto mb-6" />
 
       <p className="text-[12px] tracking-[0.15em] text-[#777] uppercase mb-2">
-        DOMAIN TIDAK DITEMUKAN
+        DOMAIN NOT FOUND
       </p>
       <p className="text-[11px] text-[#999] leading-relaxed mb-10">
-        Kategori yang Anda cari tidak ada dalam sistem ini.
+        The category you are looking for does not exist in this system.
       </p>
 
       <Link
         href="/categories"
         className="inline-flex items-center gap-3 bg-[#1a1a1a] border-l-[3px] border-[#e8c830] px-5 py-3 text-[10px] tracking-[0.25em] uppercase text-white hover:bg-[#111] transition-colors duration-150"
       >
-        ← KEMBALI KE KATEGORI
+        ← BACK TO CATEGORIES
       </Link>
     </PageContainer>
   );
