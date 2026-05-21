@@ -24,17 +24,16 @@ export interface CategoryMeta {
 }
 
 export const CATEGORY_MAP: Record<string, CategoryMeta> = {
-  games:   { slug: "games",   label: "GAMES",   id: "CAT-01" },
+  games: { slug: "games", label: "GAMES", id: "CAT-01" },
   science: { slug: "science", label: "SCIENCE", id: "CAT-02" },
-  story:   { slug: "story",   label: "STORY",   id: "CAT-03" },
-  coding:  { slug: "coding",  label: "CODING",  id: "CAT-04" },
-  study:   { slug: "study",   label: "STUDY",   id: "CAT-05" },
+  story: { slug: "story", label: "STORY", id: "CAT-03" },
+  coding: { slug: "coding", label: "CODING", id: "CAT-04" },
+  study: { slug: "study", label: "STUDY", id: "CAT-05" },
 };
 
 // ─── Articles ─────────────────────────────────────────────────────────────────
 
 export const ARTICLES: Article[] = [
-
   // ══════════════════════════════════════════
   // GAMES — 3 artikel
   // ══════════════════════════════════════════
@@ -772,8 +771,20 @@ Kualitas latihan, bukan kuantitasnya, yang menentukan.
 
 // ─── Helper functions ─────────────────────────────────────────────────────────
 
-export function getAllArticles(): Article[] {
-  return ARTICLES;
+import { supabase } from "./supabase";
+
+export async function getAllArticles() {
+  const { data, error } = await supabase
+    .from("articles")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.log("SUPABASE ERROR:", JSON.stringify(error, null, 2));
+    return [];
+  }
+
+  return data;
 }
 
 export function getArticleBySlug(slug: string): Article | undefined {

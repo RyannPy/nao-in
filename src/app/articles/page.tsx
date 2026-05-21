@@ -11,7 +11,10 @@ import PageHeader from "@/components/ui/PageHeader";
 import SectionLabel from "@/components/ui/SectionLabel";
 
 // ─── Dummy data ───────────────────────────────────────────────────────────────
-import { ARTICLES } from "@/lib/articles";
+import { getAllArticles } from "@/lib/articles";
+
+const ARTICLES = await getAllArticles();
+console.log(ARTICLES);
 
 
 // ─── Page ─────────────────────────────────────────────────────────────────────

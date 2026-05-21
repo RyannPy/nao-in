@@ -23,7 +23,7 @@ interface DesktopSidebarProps {
 // ─── Default nav items ────────────────────────────────────────────────────────
 
 const DEFAULT_ITEMS: NavItem[] = [
-  { label: "Home", href: "/", tag: "PGE-001" },
+  { label: "Index", href: "/", tag: "PGE-001" },
   { label: "Article", href: "/articles", tag: "PGE-002" },
   { label: "Category", href: "/categories", tag: "PGE-003" },
   { label: "About", href: "/about", tag: "PGE-004" },
