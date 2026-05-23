@@ -1,9 +1,9 @@
 // app/articles/[slug]/page.tsx
 
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import CategoryBadge from "@/components/CategoryBadge";
+import HeroImage from "@/components/HeroImage";
 import PageContainer from "@/components/layout/PageContainer";
 import StatusFooter from "@/components/layout/StatusFooter";
 import AccentDivider from "@/components/ui/AccentDivider";
@@ -169,13 +169,7 @@ export default async function ArticleSlugPage({ params }: Props) {
 
           {/* Image */}
           <div className="relative w-full" style={{ aspectRatio: "16/7" }}>
-            <Image
-              src={article.image_src}
-              alt={article.title}
-              fill
-              className="object-cover"
-              priority
-            />
+            <HeroImage src={article.image_src} alt={article.title} />
             {/* Scanline overlay */}
             <div
               aria-hidden

@@ -1,8 +1,10 @@
 // app/categories/[slug]/page.tsx
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArticleCard from "@/components/ArticleCard";
+import { LoadingCardGrid } from "@/components/loading";
 import PageContainer from "@/components/layout/PageContainer";
 import StatusFooter from "@/components/layout/StatusFooter";
 import PageHeader from "@/components/ui/PageHeader";
@@ -132,19 +134,21 @@ export default async function CategorySlugPage({ params }: Props) {
         </div>
       ) : (
         /* ── Article list ── */
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-[#bbb] border border-[#bbb]">
-          {articles.map((art) => (
-            <ArticleCard
-              key={art.id}
-              tag={art.id}
-              title={art.title}
-              category={art.category}
-              imageSrc={art.image_src}
-              date={art.date}
-              href={`/articles/${art.slug}`}
-            />
-          ))}
-        </div>
+        <Suspense fallback={<LoadingCardGrid count={6} />}>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-[#bbb] border border-[#bbb]">
+            {articles.map((art) => (
+              <ArticleCard
+                key={art.id}
+                tag={art.id}
+                title={art.title}
+                category={art.category}
+                imageSrc={art.image_src}
+                date={art.date}
+                href={`/articles/${art.slug}`}
+              />
+            ))}
+          </div>
+        </Suspense>
       )}
 
       {/* ════════════════════════════════════════════

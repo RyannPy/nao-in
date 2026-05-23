@@ -1,7 +1,9 @@
 // app/page.tsx  →  salin sebagai HomePage
 
+import { Suspense } from "react";
 import Link from "next/link";
 import ArticleCard from "@/components/ArticleCard";
+import { LoadingCardGrid } from "@/components/loading";
 import PageContainer from "@/components/layout/PageContainer";
 import StatusFooter from "@/components/layout/StatusFooter";
 import PageHeader from "@/components/ui/PageHeader";
@@ -12,6 +14,27 @@ import {
   getArticlesRecent,
   getCountArticles,
 } from "@/lib/articles";
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+async function RecentArticlesList() {
+  const RECENT = await getArticlesRecent();
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#bbb]">
+      {RECENT.map((art) => (
+        <ArticleCard
+          key={art.tag}
+          tag={art.tag}
+          title={art.title}
+          category={art.category}
+          imageSrc={art.image_src}
+          date={art.date}
+          href={`/articles/${art.slug}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -107,19 +130,9 @@ export default async function HomePage() {
             </Link>
           }
         />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#bbb]">
-          {RECENT.map((art) => (
-            <ArticleCard
-              key={art.tag}
-              tag={art.tag}
-              title={art.title}
-              category={art.category}
-              imageSrc={art.image_src}
-              date={art.date}
-              href={`/articles/${art.slug}`}
-            />
-          ))}
-        </div>
+        <Suspense fallback={<LoadingCardGrid count={4} />}>
+          <RecentArticlesList />
+        </Suspense>
       </section>
 
       {/* ── Footer status ── */}

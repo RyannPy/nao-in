@@ -4,8 +4,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { type CSSProperties } from "react";
+import { type CSSProperties, useState } from "react";
 import CategoryBadge, { type BadgeVariant } from "./CategoryBadge";
+import { LoadingImage } from "./loading";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -46,6 +47,8 @@ export default function ArticleCard({
   href,
   badgeVariant = "default",
 }: ArticleCardProps) {
+  const [isImgLoaded, setIsImgLoaded] = useState(false);
+
   return (
     <Link
       href={href}
@@ -68,11 +71,19 @@ export default function ArticleCard({
       <div className="relative w-full mt-5" style={{ flex: "0 0 56%" }}>
         {imageSrc ? (
           <>
+            {!isImgLoaded && (
+              <div className="absolute inset-0 z-0">
+                <LoadingImage aspectRatio="auto" className="h-full w-full border-none" />
+              </div>
+            )}
             <Image
               src={imageSrc}
               alt={imageAlt}
               fill
-              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+              onLoad={() => setIsImgLoaded(true)}
+              className={`object-cover grayscale group-hover:grayscale-0 transition-all duration-300 ${
+                isImgLoaded ? "opacity-100" : "opacity-0"
+              }`}
             />
             {/* overlay scanline */}
             <div

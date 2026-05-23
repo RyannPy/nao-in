@@ -2,9 +2,10 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import ArticleCard from "@/components/ArticleCard";
+import LoadingCard from "@/components/loading/LoadingCard";
 import PageContainer from "@/components/layout/PageContainer";
 import StatusFooter from "@/components/layout/StatusFooter";
 import PageHeader from "@/components/ui/PageHeader";
@@ -18,6 +19,11 @@ const ARTICLES = await getArticlesPreview();
 
 export default function ArticlesPage() {
   const [search, setSearch] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const filtered = ARTICLES.filter((a) => {
     const matchSearch =
@@ -53,17 +59,21 @@ export default function ArticlesPage() {
 
       {/* ── Article list ── */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-[#bbb] border border-[#bbb]">
-        {filtered.map((art) => (
-          <ArticleCard
-            key={art.id}
-            tag={art.id}
-            title={art.title}
-            category={art.category}
-            imageSrc={art.image_src}
-            date={art.date}
-            href={`/articles/${art.slug}`}
-          />
-        ))}
+        {!isMounted ? (
+          Array.from({ length: 6 }).map((_, i) => <LoadingCard key={i} />)
+        ) : (
+          filtered.map((art) => (
+            <ArticleCard
+              key={art.id}
+              tag={art.id}
+              title={art.title}
+              category={art.category}
+              imageSrc={art.image_src}
+              date={art.date}
+              href={`/articles/${art.slug}`}
+            />
+          ))
+        )}
       </div>
 
       {/* ── Footer ── */}
