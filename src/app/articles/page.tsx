@@ -11,9 +11,9 @@ import PageHeader from "@/components/ui/PageHeader";
 import SectionLabel from "@/components/ui/SectionLabel";
 
 // ─── Dummy data ───────────────────────────────────────────────────────────────
-import { getAllArticles } from "@/lib/articles";
+import { getArticlesPreview } from "@/lib/articles";
 
-const ARTICLES = await getAllArticles();
+const ARTICLES = await getArticlesPreview();
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ArticlesPage() {
@@ -59,6 +59,7 @@ export default function ArticlesPage() {
             tag={art.id}
             title={art.title}
             category={art.category}
+            imageSrc={art.image_src}
             date={art.date}
             href={`/articles/${art.slug}`}
           />

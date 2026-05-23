@@ -7,33 +7,33 @@ import StatusFooter from "@/components/layout/StatusFooter";
 import PageHeader from "@/components/ui/PageHeader";
 import SectionLabel from "@/components/ui/SectionLabel";
 
-
-import { getArticlesFeatured, getArticlesRecent, getCountArticles } from "@/lib/articles";
-
+import {
+  getArticlesFeatured,
+  getArticlesRecent,
+  getCountArticles,
+} from "@/lib/articles";
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function HomePage() {
+  const FEATURED = await getArticlesFeatured();
+  const RECENT = await getArticlesRecent();
 
-  
-const FEATURED = await getArticlesFeatured();
-const RECENT = await getArticlesRecent();
+  if (!FEATURED) {
+    return <div>No featured article found.</div>;
+  }
 
-if (!FEATURED) {
-  return <div>No featured article found.</div>;
-}
+  const totalArticles = await getCountArticles();
 
-const totalArticles = await getCountArticles();
-
-
-const STATS = [
-  { label: "ARTICLES", value: totalArticles },
-  { label: "CATEGORIES", value: "5" },
-  { label: "READERS / MONTH", value: "4.2K" },
-  { label: "YEARS ACTIVE", value: "1" },
-];
-
-
+  const STATS = [
+    { label: "ARTICLES", value: totalArticles },
+    { label: "CATEGORIES", value: "5" },
+    {
+      label: "LAST ARCHIVED",
+      value: new Date(RECENT[0].created_at).toLocaleDateString("en-US"),
+    },
+    { label: "YEARS ACTIVATE", value: "2026" },
+  ];
 
   return (
     <PageContainer className="font-mono">
@@ -114,6 +114,7 @@ const STATS = [
               tag={art.tag}
               title={art.title}
               category={art.category}
+              imageSrc={art.image_src}
               date={art.date}
               href={`/articles/${art.slug}`}
             />

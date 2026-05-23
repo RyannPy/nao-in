@@ -94,6 +94,38 @@ export async function getArticlesFeatured() {
     : null;
 }
 
+// GET RELATED ARTICLES (for article detail page)
+export async function getRelatedArticles(
+  category: string,
+  currentId: string
+) {
+  const { data, error } = await supabase
+    .from("articles")
+    .select(`
+      id,
+      slug,
+      title,
+      category,
+      created_at
+    `)
+    .eq("category", category)
+    .neq("id", currentId)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+
+  return (
+    data?.map((article) => ({
+      ...article,
+      date: formatDate(article.created_at),
+    })) ?? []
+  );
+}
+
 // GET RECENT ARTICLE (for index page)
 export async function getArticlesRecent() {
   const { data, error } = await supabase

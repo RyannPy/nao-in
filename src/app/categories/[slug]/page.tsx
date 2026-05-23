@@ -139,6 +139,7 @@ export default async function CategorySlugPage({ params }: Props) {
               tag={art.id}
               title={art.title}
               category={art.category}
+              imageSrc={art.image_src}
               date={art.date}
               href={`/articles/${art.slug}`}
             />
