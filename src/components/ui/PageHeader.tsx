@@ -15,8 +15,8 @@ interface PageHeaderProps {
 export default function PageHeader({
   title,
   code,
-  titleClassName = "text-4xl",
-  className = "mb-12",
+  titleClassName = "text-3xl md:text-4xl",
+  className = "mb-8 md:mb-12",
 }: PageHeaderProps) {
   return (
     <header className={className}>

@@ -58,7 +58,7 @@ export default function ArticlesPage() {
       />
 
       {/* ── Article list ── */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-[#bbb] border border-[#bbb]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#bbb] border border-[#bbb]">
         {!isMounted ? (
           Array.from({ length: 6 }).map((_, i) => <LoadingCard key={i} />)
         ) : (

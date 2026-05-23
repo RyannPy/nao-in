@@ -108,7 +108,7 @@ export default async function ArticleSlugPage({ params }: Props) {
   const RELATED = await getRelatedArticles(article.category, article.id);
 
   return (
-    <PageContainer innerClassName="px-6 md:px-10 py-10 max-w-3xl mx-auto">
+    <PageContainer innerClassName="px-4 py-6 md:px-10 md:py-10 max-w-3xl mx-auto">
 
       {/* ════════════════════════════════════════════
           1. TOP METADATA ROW

@@ -17,8 +17,7 @@ interface LoadingCardProps {
 function LoadingCardSingle({ className = "" }: LoadingCardProps) {
   return (
     <div
-      className={`relative flex flex-col bg-[#c4c4c4] border border-[#b0b0b0] overflow-hidden ${className}`}
-      style={{ aspectRatio: "4/5" }}
+      className={`relative flex flex-col w-full aspect-[5/3] sm:aspect-[4/3] bg-[#c4c4c4] border border-[#b0b0b0] overflow-hidden ${className}`}
       aria-busy="true"
       aria-label="Loading article card"
     >
@@ -100,7 +99,7 @@ export function LoadingCardGrid({
 }: LoadingCardGridProps) {
   return (
     <div
-      className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-px bg-[#b0b0b0] border border-[#b0b0b0] ${className}`}
+      className={`grid gap-px bg-[#b0b0b0] border border-[#b0b0b0] ${className || "grid-cols-1 md:grid-cols-2 lg:grid-cols-4"}`}
     >
       {Array.from({ length: count }).map((_, i) => (
         <LoadingCardSingle key={i} />

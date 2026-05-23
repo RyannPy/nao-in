@@ -128,7 +128,7 @@ const ICONS: Record<string, () => JSX.Element> = {
 
 export default function CategoriesPage() {
   return (
-    <PageContainer className="font-mono" innerClassName="px-8 py-10 max-w-5xl mx-auto">
+    <PageContainer className="font-mono" innerClassName="px-4 py-6 md:px-8 md:py-10 max-w-5xl mx-auto">
       {/* ── Page header ── */}
       <PageHeader title="CATEGORY" code="PGE-003" className="mb-10" />
 
@@ -145,13 +145,7 @@ export default function CategoriesPage() {
 
       {/* ── Category grid — full viewport height minus header ── */}
       <div
-        className="grid gap-px bg-[#b0b0b0]"
-        style={{
-          gridTemplateColumns: "repeat(5, 1fr)",
-          /* Tinggi penuh: kurangi header ~260px, sisanya dibagi rata */
-          height: "calc(100vh - 280px)",
-          minHeight: "400px",
-        }}
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-px bg-[#b0b0b0] min-h-[400px] lg:min-h-[calc(100vh-280px)]"
       >
         {CATEGORIES.map((cat) => {
           const Icon = ICONS[cat.slug];

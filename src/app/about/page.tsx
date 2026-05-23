@@ -168,7 +168,7 @@ export default function AboutPage() {
               <span className="text-[9px] tracking-[0.25em] text-[#999] group-hover:text-[#555] w-16 shrink-0 transition-colors">
                 {c.label}
               </span>
-              <span className="text-[12px] font-semibold text-[#1a1a1a] group-hover:text-white flex-1 transition-colors duration-150">
+              <span className="text-[12px] font-semibold text-[#1a1a1a] group-hover:text-white flex-1 transition-colors duration-150 break-all sm:break-normal">
                 {c.value}
               </span>
               <span className="text-[9px] tracking-[0.3em] text-[#aaa] group-hover:text-[#e8c830] group-hover:translate-x-1 transition-all duration-150">

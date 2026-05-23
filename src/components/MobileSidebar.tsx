@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // ─── cx helper ────────────────────────────────────────────────────────────────
 function cx(...c: (string | false | null | undefined)[]) {
@@ -23,12 +24,10 @@ interface MobileSidebarProps {
 
 // ─── Default nav items ────────────────────────────────────────────────────────
 const DEFAULT_ITEMS: NavItem[] = [
-  { label: "Beranda",          href: "/",         tag: "SYS-001" },
-  { label: "Artikel",          href: "/articles", tag: "SYS-002" },
-  { label: "Kategori",         href: "/categories", tag: "SYS-003" },
-  { label: "Eksperimen",       href: "/labs",     tag: "SYS-004" },
-  { label: "Arsip",            href: "/archive",  tag: "SYS-005" },
-  { label: "Tentang Penulis",  href: "/about",    tag: "SYS-006" },
+  { label: "Index",          href: "/",         tag: "PGE-001" },
+  { label: "Article",          href: "/articles", tag: "PGE-002" },
+  { label: "Category",         href: "/categories", tag: "PGE-003" },
+  { label: "About",       href: "/about",     tag: "PGE-004" },
 ];
 
 const TEXTURE_STYLE: React.CSSProperties = {
@@ -103,12 +102,12 @@ function ReticleButton({ open, onClick }: { open: boolean; onClick: () => void }
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function MobileSidebar({
   items = DEFAULT_ITEMS,
-  siteTitle = "TERMA//LOG",
-  activePath = "/",
+  siteTitle = "NAO-IN",
 }: MobileSidebarProps) {
   const [open, setOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   // Close on outside click
   useEffect(() => {
@@ -148,7 +147,7 @@ export default function MobileSidebar({
 
         {/* Right: status dot */}
         <div className="flex items-center gap-2">
-          <span className="text-[8px] tracking-[0.2em] text-[#888]">AKTIF</span>
+          <span className="text-[8px] tracking-[0.2em] text-[#888]">ACTIVE</span>
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e8c830] opacity-60" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#e8c830]" />
@@ -213,14 +212,17 @@ export default function MobileSidebar({
         {/* Section label */}
         <div className="px-5 mb-2">
           <span className="text-[8px] font-mono tracking-[0.3em] text-[#999] uppercase">
-            {"// NAVIGASI"}
+            {"// NAVIGATION"}
           </span>
         </div>
 
         {/* ── Nav items ── */}
         <nav className="flex flex-col gap-[3px] px-3 overflow-y-auto flex-1">
           {items.map((item, i) => {
-            const isActive  = activePath === item.href;
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
             const isHovered = hoveredIndex === i;
             const isDark    = isActive || isHovered;
 
@@ -312,8 +314,8 @@ export default function MobileSidebar({
           <div className="h-px bg-[#b0b0b0] mb-[2px]" />
           <div className="h-px bg-[#e0e0e0] w-2/3 mb-4" />
           <p className="text-[8px] font-mono text-[#aaa] tracking-[0.15em] leading-relaxed">
-            {"REV.04 // BUILD 2026.05"}<br />
-            TERMALOGI NETWORK NODE
+            {"V0.0.1 // BUILD 2026.05"}<br />
+            NAO-IN NETWORK
           </p>
         </div>
       </div>

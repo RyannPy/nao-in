@@ -16,7 +16,7 @@ export default function MetaRow({
   className = "mb-6",
 }: MetaRowProps) {
   return (
-    <div className={`flex items-center gap-5 ${className}`}>
+    <div className={`flex items-center flex-wrap gap-3 md:gap-5 ${className}`}>
       {/* Primary label with dot */}
       <div className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 bg-[#e8c830]" />

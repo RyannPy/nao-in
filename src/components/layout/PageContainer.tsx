@@ -18,7 +18,7 @@ interface PageContainerProps {
 export default function PageContainer({
   children,
   className = "",
-  innerClassName = "px-8 py-10 max-w-4xl mx-auto",
+  innerClassName = "px-4 py-6 md:px-8 md:py-10 max-w-4xl mx-auto",
   style,
   centered = false,
 }: PageContainerProps) {
@@ -32,7 +32,7 @@ export default function PageContainer({
       <PageTexture />
       <div
         className={`relative z-10 ${
-          centered ? "text-center px-8 max-w-md" : innerClassName
+          centered ? "text-center px-4 md:px-8 max-w-md" : innerClassName
         }`}
       >
         {children}

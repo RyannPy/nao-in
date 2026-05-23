@@ -52,7 +52,7 @@ export default function ArticleCard({
   return (
     <Link
       href={href}
-      className="group relative flex flex-col w-full aspect-4/3 bg-[#c4c4c4] border border-[#b0b0b0] overflow-hidden transition-all duration-200 ease-out hover:shadow-[4px_4px_0_#1a1a1a] hover:-translate-y-px hover:border-[#888] select-none"
+      className="group relative flex flex-col w-full aspect-[5/3] sm:aspect-4/3 bg-[#c4c4c4] border border-[#b0b0b0] overflow-hidden transition-all duration-200 ease-out hover:shadow-[4px_4px_0_#1a1a1a] hover:-translate-y-px hover:border-[#888] select-none"
     >
       {/* ── "Tab" di pojok kiri atas — efek folder ── */}
       <div className="absolute top-0 left-0 z-10 flex items-center gap-2 h-5 bg-[#1a1a1a] pl-2 pr-3">

@@ -36,7 +36,7 @@ export default async function CategorySlugPage({ params }: Props) {
   const articles = await getArticlesByCategory(slug);
 
   return (
-    <PageContainer className="font-mono" innerClassName="px-6 md:px-10 py-10 max-w-5xl mx-auto">
+    <PageContainer className="font-mono" innerClassName="px-4 py-6 md:px-10 md:py-10 max-w-5xl mx-auto">
       {/* ════════════════════════════════════════════
           BREADCRUMB / TOP NAV ROW
       ════════════════════════════════════════════ */}
@@ -134,8 +134,8 @@ export default async function CategorySlugPage({ params }: Props) {
         </div>
       ) : (
         /* ── Article list ── */
-        <Suspense fallback={<LoadingCardGrid count={6} />}>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-[#bbb] border border-[#bbb]">
+        <Suspense fallback={<LoadingCardGrid count={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" />}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#bbb] border border-[#bbb]">
             {articles.map((art) => (
               <ArticleCard
                 key={art.id}

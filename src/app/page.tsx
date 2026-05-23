@@ -20,7 +20,7 @@ import {
 async function RecentArticlesList() {
   const RECENT = await getArticlesRecent();
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#bbb]">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-[#bbb]">
       {RECENT.map((art) => (
         <ArticleCard
           key={art.tag}
@@ -64,7 +64,7 @@ export default async function HomePage() {
       <PageHeader title="INDEX" code="PGE-001" />
 
       {/* ── Stats bar ── */}
-      <div className="grid grid-cols-4 gap-px bg-[#bbb] border border-[#bbb] mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#bbb] border border-[#bbb] mb-8 md:mb-12">
         {STATS.map((s) => (
           <div
             key={s.label}
@@ -81,12 +81,12 @@ export default async function HomePage() {
       </div>
 
       {/* ── Featured article ── */}
-      <section className="mb-12">
+      <section className="mb-8 md:mb-12">
         <SectionLabel label={"// FEATURED"} />
 
         <Link
           href={`/articles/${FEATURED.slug}`}
-          className="group block bg-[#1a1a1a] p-7 relative overflow-hidden border-l-[3px] border-[#e8c830] transition-all duration-200 hover:shadow-[4px_4px_0_#e8c830]"
+          className="group block bg-[#1a1a1a] p-5 md:p-7 relative overflow-hidden border-l-[3px] border-[#e8c830] transition-all duration-200 hover:shadow-[4px_4px_0_#e8c830]"
         >
           {/* corner ticks */}
           <span className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[#333]" />
