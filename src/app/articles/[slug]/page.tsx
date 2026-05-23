@@ -9,88 +9,9 @@ import StatusFooter from "@/components/layout/StatusFooter";
 import AccentDivider from "@/components/ui/AccentDivider";
 import MetaRow from "@/components/ui/MetaRow";
 import SectionLabel from "@/components/ui/SectionLabel";
-import { JSX } from "react";
+import renderContent from "@/components/prose/renderContent";
 
 import { getArticleBySlug, getRelatedArticles } from "@/lib/articles";
-
-// ─── Prose renderer ───────────────────────────────────────────────────────────
-
-function renderContent(raw: string) {
-  const lines = raw.trim().split("\n");
-  const blocks: JSX.Element[] = [];
-  let key = 0;
-
-  function parseInline(text: string) {
-    const regex = /(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g;
-
-    return text.split(regex).map((part, pi) => {
-      if (part.startsWith("**") && part.endsWith("**")) {
-        return (
-          <strong key={pi} className="font-bold text-[#1a1a1a]">
-            {part.slice(2, -2)}
-          </strong>
-        );
-      }
-
-      const linkMatch = part.match(/\[([^\]]+)\]\(([^)]+)\)/);
-      if (linkMatch) {
-        const [, label, href] = linkMatch;
-        const isExternal =
-          href.startsWith("http://") || href.startsWith("https://");
-        return (
-          <Link
-            key={pi}
-            href={href}
-            target={isExternal ? "_blank" : undefined}
-            rel={isExternal ? "noopener noreferrer" : undefined}
-            className="text-[#1a1a1a] underline decoration-[#e8c830] underline-offset-4 transition-colors duration-150 hover:text-[#e8c830]"
-          >
-            {label}
-          </Link>
-        );
-      }
-
-      return part;
-    });
-  }
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-
-    if (line.startsWith("## ")) {
-      blocks.push(
-        <h2
-          key={key++}
-          className="text-[13px] font-black tracking-[0.2em] uppercase text-[#1a1a1a] mt-10 mb-4 flex items-center gap-3"
-        >
-          <span className="w-4 h-px bg-[#e8c830] inline-block shrink-0" />
-          {line.slice(3)}
-        </h2>,
-      );
-    } else if (line.startsWith("**") && line.endsWith("**")) {
-      blocks.push(
-        <p
-          key={key++}
-          className="text-[13px] font-bold tracking-tight text-[#1a1a1a] mt-6 mb-2"
-        >
-          {line.slice(2, -2)}
-        </p>,
-      );
-    } else {
-      blocks.push(
-        <p
-          key={key++}
-          className="text-[14px] leading-[1.9] text-[#3a3a3a] mb-0"
-        >
-          {parseInline(line)}
-        </p>,
-      );
-    }
-  }
-
-  return blocks;
-}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -109,7 +30,6 @@ export default async function ArticleSlugPage({ params }: Props) {
 
   return (
     <PageContainer innerClassName="px-4 py-6 md:px-10 md:py-10 max-w-3xl mx-auto">
-
       {/* ════════════════════════════════════════════
           1. TOP METADATA ROW
       ════════════════════════════════════════════ */}
@@ -118,14 +38,18 @@ export default async function ArticleSlugPage({ params }: Props) {
           href="/articles"
           className="group flex items-center gap-1.5 text-[9px] tracking-[0.3em] text-[#888] uppercase hover:text-[#1a1a1a] transition-colors duration-150"
         >
-          <span className="transition-transform duration-150 group-hover:-translate-x-0.5">←</span>
+          <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
+            ←
+          </span>
           ARTICLES
         </Link>
 
         <span className="h-3 w-px bg-[#bbb]" />
         <CategoryBadge label={article.category} variant="default" />
         <span className="h-px flex-1 bg-[#bbb]" />
-        <span className="text-[9px] tracking-[0.25em] text-[#aaa]">{article.id}</span>
+        <span className="text-[9px] tracking-[0.25em] text-[#aaa]">
+          {article.id}
+        </span>
       </div>
 
       {/* ════════════════════════════════════════════
@@ -218,7 +142,9 @@ export default async function ArticleSlugPage({ params }: Props) {
             END OF DOCUMENT
           </span>
           <span className="h-px flex-1 bg-[#d0d0d0]" />
-          <span className="text-[8px] tracking-[0.2em] text-[#bbb]">{article.id}</span>
+          <span className="text-[8px] tracking-[0.2em] text-[#bbb]">
+            {article.id}
+          </span>
         </div>
       </article>
 
@@ -264,7 +190,9 @@ export default async function ArticleSlugPage({ params }: Props) {
           href="/articles"
           className="group inline-flex items-center gap-3 bg-[#1a1a1a] px-5 py-3 text-[10px] tracking-[0.25em] uppercase text-white hover:bg-[#111] transition-colors duration-150 relative border-l-[3px] border-[#e8c830]"
         >
-          <span className="transition-transform duration-150 group-hover:-translate-x-0.5">←</span>
+          <span className="transition-transform duration-150 group-hover:-translate-x-0.5">
+            ←
+          </span>
           BACK TO ARCHIVE
         </Link>
 
@@ -273,7 +201,9 @@ export default async function ArticleSlugPage({ params }: Props) {
           className="group inline-flex items-center gap-3 bg-transparent border border-[#bbb] px-5 py-3 text-[10px] tracking-[0.25em] uppercase text-[#666] hover:border-[#1a1a1a] hover:text-[#1a1a1a] transition-colors duration-150"
         >
           VIEW CATEGORIES
-          <span className="transition-transform duration-150 group-hover:translate-x-0.5">→</span>
+          <span className="transition-transform duration-150 group-hover:translate-x-0.5">
+            →
+          </span>
         </Link>
       </div>
 
