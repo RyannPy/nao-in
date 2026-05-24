@@ -24,10 +24,10 @@ interface MobileSidebarProps {
 
 // ─── Default nav items ────────────────────────────────────────────────────────
 const DEFAULT_ITEMS: NavItem[] = [
-  { label: "Index",          href: "/",         tag: "PGE-001" },
-  { label: "Article",          href: "/articles", tag: "PGE-002" },
-  { label: "Category",         href: "/categories", tag: "PGE-003" },
-  { label: "About",       href: "/about",     tag: "PGE-004" },
+  { label: "Index",    href: "/",           tag: "PGE-001" },
+  { label: "Article",  href: "/articles",   tag: "PGE-002" },
+  { label: "Category", href: "/categories", tag: "PGE-003" },
+  { label: "About",    href: "/about",      tag: "PGE-004" },
 ];
 
 const TEXTURE_STYLE: React.CSSProperties = {
@@ -36,65 +36,44 @@ const TEXTURE_STYLE: React.CSSProperties = {
     "repeating-linear-gradient(90deg,transparent,transparent 48px,#000 48px,#000 49px)",
 };
 
-// ─── Crosshair / Reticle trigger button ───────────────────────────────────────
+// ─── Crosshair trigger button ─────────────────────────────────────────────────
+// Closed → pure + (plus/aim)
+// Open   → rotated 45deg → × (cross/dismiss)
+// No circle — murni crosshair FPS-style
 function ReticleButton({ open, onClick }: { open: boolean; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
       aria-label={open ? "Tutup menu" : "Buka menu"}
-      className="relative w-10 h-10 flex items-center justify-center group focus:outline-none"
+      className="relative w-7 h-7 flex items-center justify-center group focus:outline-none"
     >
-      {/* Outer ring — rotates 45deg when open */}
+      {/* Horizontal bar */}
       <span
         className={cx(
-          "absolute inset-0 border border-[#1a1a1a] rounded-full transition-all duration-300",
-          open ? "rotate-45 scale-90 border-[#e8c830]" : "rotate-0 scale-100"
+          "absolute top-1/2 -translate-y-1/2 h-px transition-all duration-300",
+          open
+            ? "w-[18px] bg-[#e8c830] rotate-45"
+            : "w-[18px] bg-[#1a1a1a] rotate-0"
         )}
       />
 
-      {/* Inner dot */}
+      {/* Vertical bar */}
       <span
         className={cx(
-          "absolute w-[5px] h-[5px] rounded-full transition-all duration-200",
-          open ? "bg-[#e8c830] scale-150" : "bg-[#1a1a1a] scale-100"
+          "absolute left-1/2 -translate-x-1/2 w-px transition-all duration-300",
+          open
+            ? "h-[18px] bg-[#e8c830] rotate-45"
+            : "h-[18px] bg-[#1a1a1a] rotate-0"
         )}
       />
 
-      {/* Crosshair lines — 4 ticks N/S/E/W */}
-      {/* Top */}
+      {/* Center gap cutout — small white square to mimic FPS crosshair gap */}
       <span
         className={cx(
-          "absolute top-[4px] left-1/2 -translate-x-1/2 w-px bg-[#1a1a1a] transition-all duration-300",
-          open ? "h-[6px] bg-[#e8c830] top-[3px]" : "h-[6px]"
+          "absolute w-[4px] h-[4px] bg-[#c9c9c9] transition-all duration-200",
+          open ? "opacity-0" : "opacity-100"
         )}
       />
-      {/* Bottom */}
-      <span
-        className={cx(
-          "absolute bottom-[4px] left-1/2 -translate-x-1/2 w-px bg-[#1a1a1a] transition-all duration-300",
-          open ? "h-[6px] bg-[#e8c830] bottom-[3px]" : "h-[6px]"
-        )}
-      />
-      {/* Left */}
-      <span
-        className={cx(
-          "absolute left-[4px] top-1/2 -translate-y-1/2 h-px bg-[#1a1a1a] transition-all duration-300",
-          open ? "w-[6px] bg-[#e8c830] left-[3px]" : "w-[6px]"
-        )}
-      />
-      {/* Right */}
-      <span
-        className={cx(
-          "absolute right-[4px] top-1/2 -translate-y-1/2 h-px bg-[#1a1a1a] transition-all duration-300",
-          open ? "w-[6px] bg-[#e8c830] right-[3px]" : "w-[6px]"
-        )}
-      />
-
-      {/* Corner brackets — appear on hover */}
-      <span className="absolute top-0 left-0 w-[7px] h-[7px] border-t border-l border-[#1a1a1a] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-      <span className="absolute top-0 right-0 w-[7px] h-[7px] border-t border-r border-[#1a1a1a] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-      <span className="absolute bottom-0 left-0 w-[7px] h-[7px] border-b border-l border-[#1a1a1a] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-      <span className="absolute bottom-0 right-0 w-[7px] h-[7px] border-b border-r border-[#1a1a1a] opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
     </button>
   );
 }

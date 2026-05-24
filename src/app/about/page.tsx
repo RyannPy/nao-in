@@ -20,25 +20,37 @@ const SKILLS = [
 const TIMELINE = [
   {
     year: "May 2024",
-    event: "Penasaran dengan pemrograman.",
+    event: "Curious about programming with try python.",
   },
   {
-    year: "2024",
+    year: "June 2024",
     event:
-      "Bergabung dengan tim infrastruktur di perusahaan SaaS skala menengah.",
+      "Learn HTML/CSS and build simple website.",
   },
   {
-    year: "2024",
-    event: "Artikel pertama viral — lebih dari 40 ribu pembaca dalam 3 hari.",
+    year: "March 2025",
+    event: "Learn Javascript and make some project web.",
   },
   {
-    year: "2025",
-    event: "Meraih sertifikasi CKA (Certified Kubernetes Administrator).",
+    year: "February 2026",
+    event: "Start learning Data Science and AI Engineer, with build nao-in.",
   },
   {
-    year: "2026",
-    event: "Merilis ulang blog dengan desain baru dan arsip terstruktur.",
+    year: "August 2026",
+    event: "Become a IT student in University.",
   },
+  {
+    year: "2030",
+    event: "Graduated and worked as an AI engineer at Google and received a scholarship for a master's degree in Computer Science at Harvard University.",
+  },
+  {
+    year: "2032",
+    event: "Graduated with a master's degree, continued with a doctorate in Computer Science at Stanford University.",
+  },
+  {
+    year: "2034",
+    event: "Become a AI Engineer and a professor in Stanford University",
+  }
 ];
 
 const CONTACT = [

@@ -24,7 +24,6 @@ export default async function ArticleSlugPage({ params }: Props) {
 
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
-  console.log(article);
 
   const RELATED = await getRelatedArticles(article.category, article.id);
 

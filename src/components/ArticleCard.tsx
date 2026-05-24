@@ -73,13 +73,17 @@ export default function ArticleCard({
           <>
             {!isImgLoaded && (
               <div className="absolute inset-0 z-0">
-                <LoadingImage aspectRatio="auto" className="h-full w-full border-none" />
+                <LoadingImage
+                  aspectRatio="auto"
+                  className="h-full w-full border-none"
+                />
               </div>
             )}
             <Image
               src={imageSrc}
               alt={imageAlt}
               fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               onLoad={() => setIsImgLoaded(true)}
               className={`object-cover grayscale group-hover:grayscale-0 transition-all duration-300 ${
                 isImgLoaded ? "opacity-100" : "opacity-0"
