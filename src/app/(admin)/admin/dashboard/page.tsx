@@ -3,6 +3,8 @@
 import Link from "next/link";
 import PageContainer from "@/components/layout/PageContainer";
 import PageHeader from "@/components/ui/PageHeader";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 // ─── Placeholder data (ganti dengan Supabase query existing) ─────────────────
 const STATS = {
@@ -105,21 +107,43 @@ function QuickAction({
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function AdminDashboardPage() {
+  const logout = async () => {
+    "use server";
+    const supabase = await createClient();
+    await supabase.auth.signOut();
+    redirect("/admin/login");
+  };
+
   return (
     <PageContainer>
       <PageHeader title="Admin Dashboard" code="ADM-001" />
 
       {/* ── Welcome panel ── */}
-      <div className="mt-8 bg-[#1a1a1a] border-l-[3px] border-[#e8c830] px-6 py-5 relative overflow-hidden">
+      <div className="mt-8 bg-[#1a1a1a] border-l-[3px] border-[#e8c830] px-6 py-5 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
         <span className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#333]" />
         <span className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#333]" />
-        <p className="text-[9px] tracking-[0.35em] text-[#555] uppercase font-mono mb-2">WELCOME BACK</p>
-        <p className="text-white font-black text-lg tracking-tight font-mono uppercase leading-none">
-          NAO-IN ARCHIVE SYSTEM
-        </p>
-        <p className="mt-2 text-[11px] text-[#666] font-mono leading-relaxed">
-          Internal management panel. Select an action below or navigate via sidebar.
-        </p>
+        
+        <div>
+          <p className="text-[9px] tracking-[0.35em] text-[#555] uppercase font-mono mb-2">WELCOME BACK</p>
+          <p className="text-white font-black text-lg tracking-tight font-mono uppercase leading-none">
+            NAO-IN ARCHIVE SYSTEM
+          </p>
+          <p className="mt-2 text-[11px] text-[#666] font-mono leading-relaxed">
+            Internal management panel. Select an action below or navigate via sidebar.
+          </p>
+        </div>
+
+        <form action={logout}>
+          <button 
+            type="submit" 
+            className="group relative bg-[#c4c4c4] border border-[#b8b8b8] hover:bg-[#e8c830] hover:border-[#e8c830] transition-colors duration-200 px-6 py-3 flex items-center gap-2 overflow-hidden"
+          >
+            <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#1a1a1a] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200" />
+            <span className="text-[10px] tracking-[0.2em] font-black font-mono uppercase text-[#1a1a1a] group-hover:text-[#1a1a1a] z-10">
+              LOGOUT_
+            </span>
+          </button>
+        </form>
       </div>
 
       {/* ── Stats ── */}

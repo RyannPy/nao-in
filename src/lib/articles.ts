@@ -43,7 +43,10 @@ function formatDate(date: string) {
 }
 
 // GET ALL ARTICLES
-import { supabase } from "./supabase";
+import { createClient } from "./supabase/client";
+const supabase = createClient();
+
+
 
 export async function getAllArticles() {
   const { data, error } = await supabase
