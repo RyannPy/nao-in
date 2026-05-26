@@ -22,7 +22,8 @@ export const metadata: Metadata = {
 
 const ADMIN_NAV = [
   { label: "Dashboard", href: "/admin/dashboard", tag: "ADM-001" },
-  { label: "Article", href: "/admin/articles", tag: "ADM-002" },
+  { label: "Article", href: "/admin/articles/new", tag: "ADM-002" },
+  { label: "List", href: "/admin/articles", tag: "ADM-003" },
 ];
 
 export default function AdminLayout({
