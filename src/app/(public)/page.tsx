@@ -27,7 +27,7 @@ async function RecentArticlesList() {
           tag={art.tag}
           title={art.title}
           category={art.category}
-          imageSrc={art.image_src}
+          imageSrc={art.image_src ?? undefined}
           date={art.date}
           href={`/articles/${art.slug}`}
         />
@@ -44,6 +44,9 @@ export default async function HomePage() {
 
   if (!FEATURED) {
     return <div>No featured article found.</div>;
+  }
+  if (!RECENT) {
+    return <div>No recent article found.</div>;
   }
 
   const totalArticles = await getCountArticles();

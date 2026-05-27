@@ -1,19 +1,10 @@
 // lib/articles.ts
-// Centralized dummy database for TERMA//LOG blog.
-// Replace with real DB queries (Prisma, Drizzle, etc.) in production.
+// Public data layer for TERMA//LOG blog.
+// All queries are filtered to published = true — draft articles are never returned.
+// Uses the server Supabase client (src/lib/supabase/server.ts).
 
-// ─── Interface ────────────────────────────────────────────────────────────────
-
-export interface Article {
-  id: string;
-  slug: string;
-  category: string;
-  title: string;
-  date: string;
-  excerpt: string;
-  content: string;
-  imageSrc?: string;
-}
+import { createClient } from "./supabase/server";
+import type { ArticlePreview, ArticleFull } from "@/types/article";
 
 // ─── Category map ─────────────────────────────────────────────────────────────
 
@@ -31,10 +22,13 @@ export const CATEGORY_MAP: Record<string, CategoryMeta> = {
   study: { slug: "study", label: "STUDY", id: "CAT-05" },
 };
 
-// ─── Helper functions ─────────────────────────────────────────────────────────
+export function getCategoryMeta(slug: string): CategoryMeta | undefined {
+  return CATEGORY_MAP[slug];
+}
 
-// DATE FORMAT
-function formatDate(date: string) {
+// ─── Helper ───────────────────────────────────────────────────────────────────
+
+function formatDate(date: string): string {
   return new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
     month: "short",
@@ -42,49 +36,44 @@ function formatDate(date: string) {
   }).format(new Date(date));
 }
 
-// GET ALL ARTICLES
-import { createClient } from "./supabase/client";
-const supabase = createClient();
+// ─── Public queries (published = true only) ───────────────────────────────────
 
+// GET ALL ARTICLES — returns all published articles ordered by created_at desc
+export async function getAllArticles(): Promise<ArticlePreview[]> {
+  const supabase = await createClient();
 
-
-export async function getAllArticles() {
   const { data, error } = await supabase
     .from("articles")
-    .select("*")
+    .select("id, slug, title, category, image_src, created_at")
+    .eq("published", true)
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.log("SUPABASE ERROR:", JSON.stringify(error, null, 2));
+    console.error(error);
     return [];
   }
 
-  return data;
+  return data ?? [];
 }
 
-export function getCategoryMeta(slug: string): CategoryMeta | undefined {
-  return CATEGORY_MAP[slug];
-}
+// GET FEATURED ARTICLE — most recently created published article
+export async function getArticlesFeatured(): Promise<
+  (ArticlePreview & { tag: string; date: string; excerpt: string | null }) | null
+> {
+  const supabase = await createClient();
 
-// GET FEATURED ARTICLE
-export async function getArticlesFeatured() {
   const { data, error } = await supabase
     .from("articles")
-    .select(
-      `
-      id,
-      slug,
-      title,
-      category,
-      excerpt,
-      created_at
-    `,
-    )
+    .select("id, slug, title, category, excerpt, image_src, created_at")
+    .eq("published", true)
     .order("created_at", { ascending: false })
     .limit(1);
 
+  console.log("ARTICLES DATA:", data);
+  
   if (error) {
     console.error(error);
+    console.log("ERROR:", error);
     return null;
   }
 
@@ -97,20 +86,17 @@ export async function getArticlesFeatured() {
     : null;
 }
 
-// GET RELATED ARTICLES (for article detail page)
+// GET RELATED ARTICLES — published articles in same category, excluding current
 export async function getRelatedArticles(
   category: string,
-  currentId: string
-) {
+  currentId: number,
+): Promise<(ArticlePreview & { date: string })[]> {
+  const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("articles")
-    .select(`
-      id,
-      slug,
-      title,
-      category,
-      created_at
-    `)
+    .select("id, slug, title, category, image_src, created_at")
+    .eq("published", true)
     .eq("category", category)
     .neq("id", currentId)
     .order("created_at", { ascending: false })
@@ -129,20 +115,16 @@ export async function getRelatedArticles(
   );
 }
 
-// GET RECENT ARTICLE (for index page)
-export async function getArticlesRecent() {
+// GET RECENT ARTICLES — 4 most recently created published articles
+export async function getArticlesRecent(): Promise<
+  (ArticlePreview & { tag: string; date: string })[]
+> {
+  const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("articles")
-    .select(
-      `
-      id,
-      slug,
-      title,
-      category,
-      image_src,
-      created_at
-    `,
-    )
+    .select("id, slug, title, category, image_src, created_at")
+    .eq("published", true)
     .order("created_at", { ascending: false })
     .limit(4);
 
@@ -160,20 +142,16 @@ export async function getArticlesRecent() {
   );
 }
 
-// GET PREVIEW ARTICLE (for article list)
-export async function getArticlesPreview() {
+// GET PREVIEW ARTICLES — all published articles with tag and date
+export async function getArticlesPreview(): Promise<
+  (ArticlePreview & { tag: string; date: string })[]
+> {
+  const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("articles")
-    .select(
-      `
-      id,
-      slug,
-      title,
-      category,
-      image_src,
-      created_at
-    `,
-    )
+    .select("id, slug, title, category, image_src, created_at")
+    .eq("published", true)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -190,18 +168,25 @@ export async function getArticlesPreview() {
   );
 }
 
-// GET ARTICLE BY SLUG
-export async function getArticleBySlug(slug: string) {
+// GET ARTICLE BY SLUG — returns null for drafts and non-existent slugs
+export async function getArticleBySlug(
+  slug: string,
+): Promise<(ArticleFull & { tag: string; date: string }) | null> {
+  const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("articles")
     .select("*")
     .eq("slug", slug)
-    .single();
+    .eq("published", true)
+    .maybeSingle();
 
   if (error) {
     console.error(error);
     return null;
   }
+
+  if (!data) return null;
 
   return {
     ...data,
@@ -210,20 +195,16 @@ export async function getArticleBySlug(slug: string) {
   };
 }
 
-// GET ARTICLES BY CATEGORY
-export async function getArticlesByCategory(category: string) {
+// GET ARTICLES BY CATEGORY — published articles in a category
+export async function getArticlesByCategory(
+  category: string,
+): Promise<(ArticlePreview & { tag: string; date: string })[]> {
+  const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("articles")
-    .select(
-      `
-      id,
-      slug,
-      title,
-      category,
-      image_src,
-      created_at
-    `,
-    )
+    .select("id, slug, title, category, image_src, created_at")
+    .eq("published", true)
     .eq("category", category)
     .order("created_at", { ascending: false });
 
@@ -241,12 +222,14 @@ export async function getArticlesByCategory(category: string) {
   );
 }
 
-// STATISTICS
-// get count articles
-export async function getCountArticles() {
+// GET COUNT ARTICLES — count of published articles only
+export async function getCountArticles(): Promise<number> {
+  const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("articles")
-    .select("*");
+    .select("id")
+    .eq("published", true);
 
   if (error) {
     console.error(error);

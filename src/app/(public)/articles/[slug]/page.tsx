@@ -105,7 +105,7 @@ export default async function ArticleSlugPage({ params }: Props) {
             {/* Bottom fade into page bg */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#d0d0d0] to-transparent"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-[#d0d0d0] to-transparent"
             />
           </div>
         </div>
@@ -133,7 +133,7 @@ export default async function ArticleSlugPage({ params }: Props) {
         />
 
         <div className="flex flex-col gap-5">
-          {renderContent(article.content)}
+          {renderContent(article.content ?? "")}
         </div>
 
         <div className="flex items-center gap-3 mt-12 pt-5 border-t border-[#c8c8c8]">

@@ -42,7 +42,6 @@ export interface ArticleFormData {
   content: string;
   imageSrc: string;
   publishStatus: PublishStatus;
-  featured: boolean;
 }
 
 export const EMPTY_FORM: ArticleFormData = {
@@ -53,7 +52,6 @@ export const EMPTY_FORM: ArticleFormData = {
   content: "",
   imageSrc: "",
   publishStatus: "draft",
-  featured: false,
 };
 
 // ─── SectionLabel ─────────────────────────────────────────────────────────────
@@ -382,19 +380,15 @@ export function ContentEditor({
 export function PublishSettingsSection({
   publishStatus,
   setPublishStatus,
-  featured,
-  setFeatured,
 }: {
   publishStatus: PublishStatus;
   setPublishStatus: (v: PublishStatus) => void;
-  featured: boolean;
-  setFeatured: (v: boolean) => void;
 }) {
   return (
     <section>
       <SectionLabel>{"// PUBLISH SETTINGS"}</SectionLabel>
       <div className="border border-[#b8b8b8] bg-[#c4c4c4]">
-        <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-[#b8b8b8]">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
           <div>
             <p className="text-[11px] font-mono font-semibold tracking-tight text-[#1a1a1a] uppercase">
               Publish Status
@@ -405,17 +399,6 @@ export function PublishSettingsSection({
           </div>
           <StatusToggle value={publishStatus} onChange={setPublishStatus} />
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
-          <div>
-            <p className="text-[11px] font-mono font-semibold tracking-tight text-[#1a1a1a] uppercase">
-              Featured
-            </p>
-            <p className="text-[9px] tracking-[0.1em] text-[#888] font-mono mt-[2px]">
-              F-08 — artikel ditampilkan di homepage sebagai unggulan
-            </p>
-          </div>
-          <ToggleSwitch value={featured} onChange={setFeatured} />
-        </div>
       </div>
     </section>
   );
@@ -424,14 +407,12 @@ export function PublishSettingsSection({
 // ─── FormSubmitBar ────────────────────────────────────────────────────────────
 export function FormSubmitBar({
   publishStatus,
-  featured,
   submitting,
   mode,
   onSaveDraft,
   onDelete,
 }: {
   publishStatus: PublishStatus;
-  featured: boolean;
   submitting: boolean;
   mode: "create" | "edit";
   onSaveDraft: () => void;
@@ -446,7 +427,6 @@ export function FormSubmitBar({
             <span className={publishStatus === "published" ? "text-[#e8c830]" : "text-[#666]"}>
               {publishStatus.toUpperCase()}
             </span>
-            {featured && <span className="ml-3 text-[#e8c830]">+ FEATURED</span>}
           </p>
           <p className="text-[8px] tracking-[0.15em] text-[#aaa] font-mono mt-1">
             Semua field wajib harus diisi sebelum submit.

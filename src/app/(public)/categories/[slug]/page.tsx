@@ -139,10 +139,10 @@ export default async function CategorySlugPage({ params }: Props) {
             {articles.map((art) => (
               <ArticleCard
                 key={art.id}
-                tag={art.id}
+                tag={`ART-${String(art.id).padStart(3, "0")}`}
                 title={art.title}
                 category={art.category}
-                imageSrc={art.image_src}
+                imageSrc={art.image_src ?? undefined}
                 date={art.date}
                 href={`/articles/${art.slug}`}
               />

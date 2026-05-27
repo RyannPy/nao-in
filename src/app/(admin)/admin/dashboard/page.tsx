@@ -5,27 +5,30 @@ import PageContainer from "@/components/layout/PageContainer";
 import PageHeader from "@/components/ui/PageHeader";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-
-// ─── Placeholder data (ganti dengan Supabase query existing) ─────────────────
-const STATS = {
-  totalArticles: "--",
-  lastArchived: "—",
-  categories: 5,
-  status: "ONLINE",
-};
+import { adminGetStats } from "@/lib/admin/articles";
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2 mb-4">
-      <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase font-mono">{children}</span>
+      <span className="text-[9px] tracking-[0.3em] text-[#888] uppercase font-mono">
+        {children}
+      </span>
       <span className="h-px flex-1 bg-[#bbb]" />
     </div>
   );
 }
 
-function StatCell({ label, value, accent = false }: { label: string; value: string; accent?: boolean }) {
+function StatCell({
+  label,
+  value,
+  accent = false,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+}) {
   return (
     <div className="bg-[#c4c4c4] border border-[#b8b8b8] px-5 py-4 flex flex-col gap-1 relative overflow-hidden">
       <span className="absolute top-0 right-0 w-4 h-4 border-t border-r border-[#b0b0b0]" />
@@ -35,7 +38,9 @@ function StatCell({ label, value, accent = false }: { label: string; value: stri
       >
         {value}
       </span>
-      <span className="text-[8px] tracking-[0.25em] text-[#888] uppercase font-mono">{label}</span>
+      <span className="text-[8px] tracking-[0.25em] text-[#888] uppercase font-mono">
+        {label}
+      </span>
     </div>
   );
 }
@@ -106,7 +111,17 @@ function QuickAction({
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage() {
+  const stats = await adminGetStats();
+
+  const lastArchivedDisplay = stats.lastUpdated
+    ? new Intl.DateTimeFormat("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+      }).format(new Date(stats.lastUpdated))
+    : "—";
+
   const logout = async () => {
     "use server";
     const supabase = await createClient();
@@ -122,20 +137,23 @@ export default function AdminDashboardPage() {
       <div className="mt-8 bg-[#1a1a1a] border-l-[3px] border-[#e8c830] px-6 py-5 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
         <span className="absolute top-3 right-3 w-4 h-4 border-t border-r border-[#333]" />
         <span className="absolute bottom-3 left-3 w-4 h-4 border-b border-l border-[#333]" />
-        
+
         <div>
-          <p className="text-[9px] tracking-[0.35em] text-[#555] uppercase font-mono mb-2">WELCOME BACK</p>
+          <p className="text-[9px] tracking-[0.35em] text-[#555] uppercase font-mono mb-2">
+            WELCOME BACK
+          </p>
           <p className="text-white font-black text-lg tracking-tight font-mono uppercase leading-none">
             NAO-IN ARCHIVE SYSTEM
           </p>
           <p className="mt-2 text-[11px] text-[#666] font-mono leading-relaxed">
-            Internal management panel. Select an action below or navigate via sidebar.
+            Internal management panel. Select an action below or navigate via
+            sidebar.
           </p>
         </div>
 
         <form action={logout}>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="group relative bg-[#c4c4c4] border border-[#b8b8b8] hover:bg-[#e8c830] hover:border-[#e8c830] transition-colors duration-200 px-6 py-3 flex items-center gap-2 overflow-hidden"
           >
             <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#1a1a1a] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200" />
@@ -150,10 +168,10 @@ export default function AdminDashboardPage() {
       <div className="mt-8">
         <SectionLabel>{"// SYSTEM METRICS"}</SectionLabel>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#b8b8b8] border border-[#b8b8b8]">
-          <StatCell label="TOTAL ARTICLES" value={STATS.totalArticles} />
-          <StatCell label="CATEGORIES"     value={String(STATS.categories)} />
-          <StatCell label="LAST ARCHIVED"  value={STATS.lastArchived} />
-          <StatCell label="SYSTEM STATUS"  value={STATS.status} accent />
+          <StatCell label="TOTAL ARTICLES" value={String(stats.total)} />
+          <StatCell label="PUBLISHED" value={String(stats.published)} />
+          <StatCell label="DRAFT" value={String(stats.drafts)} />
+          <StatCell label="LAST ARCHIVED" value={lastArchivedDisplay} />
         </div>
       </div>
 
@@ -180,12 +198,12 @@ export default function AdminDashboardPage() {
       {/* ── System status panel ── */}
       <div className="mt-8">
         <SectionLabel>{"// ARCHIVE STATUS"}</SectionLabel>
-        <div className="border border-[#b8b8b8] bg-[#c4c4c4]">
+        <div className="border border-[#b8b8b8] bg-[#1a1a1a]">
           {[
-            { key: "Database",        val: "CONNECTED",  ok: true },
-            { key: "Storage Bucket",  val: "STANDBY",    ok: true },
-            { key: "Auth Provider",   val: "ACTIVE",     ok: true },
-            { key: "Last Deploy",     val: "2026.05.18", ok: true },
+            { key: "Database", val: "CONNECTED", ok: true },
+            { key: "Storage Bucket", val: "STANDBY", ok: true },
+            { key: "Auth Provider", val: "ACTIVE", ok: true },
+            { key: "Last Deploy", val: "2026.05.18", ok: true },
           ].map((row, i) => (
             <div
               key={row.key}
@@ -194,19 +212,22 @@ export default function AdminDashboardPage() {
                 i !== 0 ? "border-t border-[#b8b8b8]" : "",
               ].join(" ")}
             >
-              <span className="text-[11px] tracking-[0.1em] text-[#555] uppercase">{row.key}</span>
+              <span className="text-[11px] tracking-widest text-[#555] uppercase">
+                {row.key}
+              </span>
               <div className="flex items-center gap-2">
                 <span className="relative flex h-[6px] w-[6px]">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e8c830] opacity-50" />
                   <span className="relative inline-flex rounded-full h-[6px] w-[6px] bg-[#e8c830]" />
                 </span>
-                <span className="text-[9px] tracking-[0.25em] text-[#e8c830] uppercase font-black">{row.val}</span>
+                <span className="text-[9px] tracking-[0.25em] text-[#e8c830] uppercase font-black">
+                  {row.val}
+                </span>
               </div>
             </div>
           ))}
         </div>
       </div>
-
     </PageContainer>
   );
 }
