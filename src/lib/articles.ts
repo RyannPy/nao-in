@@ -3,7 +3,7 @@
 // All queries are filtered to published = true — draft articles are never returned.
 // Uses the server Supabase client (src/lib/supabase/server.ts).
 
-import { createClient } from "./supabase/server";
+import { createClient } from "./supabase/client";
 import type { ArticlePreview, ArticleFull } from "@/types/article";
 
 // ─── Category map ─────────────────────────────────────────────────────────────

@@ -5,6 +5,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import type { ArticleAdmin } from "@/types/article";
+import { requireAdmin } from "../auth";
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
@@ -31,6 +32,7 @@ export type UpdateArticleInput = Partial<CreateArticleInput>;
 
 // GET ALL ARTICLES — returns all articles regardless of published status
 export async function adminGetAllArticles(): Promise<ArticleAdmin[]> {
+  await requireAdmin();
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -47,6 +49,7 @@ export async function adminGetAllArticles(): Promise<ArticleAdmin[]> {
 export async function adminGetArticleBySlug(
   slug: string,
 ): Promise<ArticleAdmin | null> {
+  await requireAdmin();
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -68,6 +71,7 @@ export async function adminGetArticleBySlug(
 export async function adminCreateArticle(
   data: CreateArticleInput,
 ): Promise<ArticleAdmin> {
+  await requireAdmin();
   const supabase = await createClient();
 
   const { data: created, error } = await supabase
@@ -87,6 +91,7 @@ export async function adminUpdateArticle(
   slug: string,
   data: UpdateArticleInput,
 ): Promise<ArticleAdmin> {
+  await requireAdmin();
   const supabase = await createClient();
 
   const { data: updated, error } = await supabase
@@ -104,6 +109,7 @@ export async function adminUpdateArticle(
 
 // DELETE ARTICLE — deletes a row by slug
 export async function adminDeleteArticle(slug: string): Promise<void> {
+  await requireAdmin();
   const supabase = await createClient();
 
   const { error } = await supabase
@@ -116,6 +122,7 @@ export async function adminDeleteArticle(slug: string): Promise<void> {
 
 // GET STATS — returns aggregate counts and most recent updated_at
 export async function adminGetStats(): Promise<ArticleStats> {
+  await requireAdmin();
   const supabase = await createClient();
 
   const { data, error } = await supabase

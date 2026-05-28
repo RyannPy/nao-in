@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nao-in
 
-## Getting Started
+Nao-in is a mini project blog application built with Next.js and Supabase. The project features a distinct modern industrial sci-fi game aesthetic, providing a unique and immersive user interface.
 
-First, run the development server:
+## Technology Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Framework**: [Next.js](https://nextjs.org/) (React)
+- **Database & Authentication**: [Supabase](https://supabase.com/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Schema Validation**: [Zod](https://zod.dev/)
+- **Testing**: [Vitest](https://vitest.dev/) with React Testing Library
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Prerequisites
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Before you begin, ensure you have met the following requirements:
+- Node.js (v20 or higher recommended)
+- A Supabase account and project
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation and Setup
 
-## Learn More
+1. **Navigate to the project directory**:
+   ```bash
+   cd nao-in
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install the dependencies**:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Environment Configuration**:
+   The project requires Supabase credentials to function properly. Copy the example environment file:
+   ```bash
+   cp .env.example .env.local
+   ```
+   Open `.env.local` and configure your Supabase URL and anonymous key:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+5. **Access the application**:
+   Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Testing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The project utilizes Vitest for unit and integration testing.
+
+- Run all tests:
+  ```bash
+  npm run test
+  ```
+
+- Run tests in watch mode for development:
+  ```bash
+  npm run test:watch
+  ```
+
+## Design Philosophy
+
+The user interface is heavily inspired by modern industrial sci-fi games. This design language involves specific color palettes, typography, and interactive elements tailored to fit the industrial sci-fi aesthetic. When contributing to the user interface, please ensure components adhere to these design guidelines.
+
+## Scripts
+
+- `npm run dev`: Starts the Next.js development server.
+- `npm run build`: Builds the application for production.
+- `npm run start`: Starts the production server.
+- `npm run lint`: Runs ESLint to analyze the code for potential errors.
+- `npm run test`: Executes the test suite via Vitest.
