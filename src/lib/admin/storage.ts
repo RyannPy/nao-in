@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/client";
+import { createClient as createBrowserClient } from "@/lib/supabase/client";
 
 export const ALLOWED_TYPES = [
   "image/jpeg",
@@ -41,12 +41,12 @@ export function getExtFromMime(mime: string): string {
  */
 export async function uploadArticleImage(
   file: File,
-  slug: string
+  slug: string,
 ): Promise<string> {
   // Validate MIME type
   if (!(ALLOWED_TYPES as readonly string[]).includes(file.type)) {
     throw new Error(
-      "Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed."
+      "Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed.",
     );
   }
 
@@ -55,7 +55,7 @@ export async function uploadArticleImage(
     throw new Error("File too large. Maximum size is 5MB.");
   }
 
-  const supabase = createClient();
+  const supabase = createBrowserClient();
   const filename = `${slug}-${Date.now()}.${getExtFromMime(file.type)}`;
 
   const { error } = await supabase.storage
@@ -69,3 +69,20 @@ export async function uploadArticleImage(
   const { data } = supabase.storage.from("articles").getPublicUrl(filename);
   return data.publicUrl;
 }
+
+export function extractStoragePath(url: string) {
+  try {
+    const parsed = new URL(url);
+
+    const parts = parsed.pathname.split("/");
+
+    const bucketIndex = parts.indexOf("articles");
+
+    if (bucketIndex === -1) return null;
+
+    return parts.slice(bucketIndex + 1).join("/");
+  } catch {
+    return null;
+  }
+}
+

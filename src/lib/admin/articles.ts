@@ -1,11 +1,23 @@
 // lib/admin/articles.ts
-// Admin data layer for TERMA//LOG blog.
+// Admin data layer for NAO-IN blog.
 // All queries use the server Supabase client — no published filter.
 // Throws on error so admin pages can handle and display failures.
 
 import { createClient } from "@/lib/supabase/server";
 import type { ArticleAdmin } from "@/types/article";
 import { requireAdmin } from "../auth";
+import { ArticleSchema } from "../validation";
+import { extractStoragePath } from "./storage";
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+async function deleteArticleImage(imageUrl: string) {
+  const path = extractStoragePath(imageUrl);
+  if (!path) return;
+
+  const supabase = await createClient();
+  await supabase.storage.from("articles").remove([path]);
+}
 
 // ─── Interfaces ───────────────────────────────────────────────────────────────
 
@@ -73,10 +85,12 @@ export async function adminCreateArticle(
 ): Promise<ArticleAdmin> {
   await requireAdmin();
   const supabase = await createClient();
+  
+  const validatedData = ArticleSchema.parse(data);
 
   const { data: created, error } = await supabase
     .from("articles")
-    .insert(data)
+    .insert(validatedData)
     .select("*")
     .single();
 
@@ -93,16 +107,32 @@ export async function adminUpdateArticle(
 ): Promise<ArticleAdmin> {
   await requireAdmin();
   const supabase = await createClient();
+  
+  const validatedData = ArticleSchema.partial().parse(data);
+
+  // Fetch old article BEFORE updating so we can compare the old image
+  const oldArticle = validatedData.image_src
+    ? await adminGetArticleBySlug(slug)
+    : null;
 
   const { data: updated, error } = await supabase
     .from("articles")
-    .update(data)
+    .update(validatedData)
     .eq("slug", slug)
     .select("*")
     .single();
 
   if (error) throw error;
   if (!updated) throw new Error("Update succeeded but returned no data");
+
+  // Delete old image if a new one was uploaded
+  if (
+    validatedData.image_src &&
+    oldArticle?.image_src &&
+    oldArticle.image_src !== validatedData.image_src
+  ) {
+    await deleteArticleImage(oldArticle.image_src);
+  }
 
   return updated;
 }
@@ -111,6 +141,11 @@ export async function adminUpdateArticle(
 export async function adminDeleteArticle(slug: string): Promise<void> {
   await requireAdmin();
   const supabase = await createClient();
+
+  const existing = await adminGetArticleBySlug(slug);
+  if (existing?.image_src) {
+    await deleteArticleImage(existing.image_src);
+  }
 
   const { error } = await supabase
     .from("articles")
