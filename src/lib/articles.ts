@@ -5,6 +5,7 @@
 
 import { createClient } from "./supabase/client";
 import type { ArticlePreview, ArticleFull } from "@/types/article";
+import type { PaginatedResult } from "@/lib/pagination-utils";
 
 // ─── Category map ─────────────────────────────────────────────────────────────
 
@@ -70,7 +71,7 @@ export async function getArticlesFeatured(): Promise<
     .limit(1);
 
   console.log("ARTICLES DATA:", data);
-  
+
   if (error) {
     console.error(error);
     console.log("ERROR:", error);
@@ -237,4 +238,74 @@ export async function getCountArticles(): Promise<number> {
   }
 
   return data?.length ?? 0;
+}
+
+// GET ARTICLES PREVIEW PAGINATED — server-side paginated published articles
+// Requirements: 1.1, 1.2, 1.3, 1.5, 1.8, 1.9, 1.10, 2.1, 2.2, 2.3, 2.5, 2.6
+export async function getArticlesPreviewPaginated(
+  page: number,
+  pageSize: number = 12,
+): Promise<PaginatedResult<ArticlePreview & { tag: string; date: string }>> {
+  const supabase = await createClient();
+  const offset = (page - 1) * pageSize;
+
+  const { data, error, count } = await supabase
+    .from("articles")
+    .select("id, slug, title, category, image_src, created_at", {
+      count: "exact",
+    })
+    .eq("published", true)
+    .order("created_at", { ascending: false })
+    .range(offset, offset + pageSize - 1);
+
+  if (error) {
+    console.error("Failed to fetch paginated articles:", error);
+    return { data: [], totalCount: 0 };
+  }
+
+  return {
+    data:
+      data?.map((article) => ({
+        ...article,
+        tag: `ART-${String(article.id).padStart(3, "0")}`,
+        date: formatDate(article.created_at),
+      })) ?? [],
+    totalCount: count ?? 0,
+  };
+}
+
+// GET ARTICLES BY CATEGORY PAGINATED — server-side paginated articles filtered by category
+// Requirements: 1.1, 1.2, 1.3, 1.5, 1.8, 1.9, 1.10, 2.1, 2.2, 2.3, 2.5, 2.6, 7.2, 7.3
+export async function getArticlesByCategoryPaginated(
+  category: string,
+  page: number,
+  pageSize: number = 12,
+): Promise<PaginatedResult<ArticlePreview & { tag: string; date: string }>> {
+  const supabase = await createClient();
+  const offset = (page - 1) * pageSize;
+
+  const { data, error, count } = await supabase
+    .from("articles")
+    .select("id, slug, title, category, image_src, created_at", {
+      count: "exact",
+    })
+    .eq("published", true)
+    .eq("category", category)
+    .order("created_at", { ascending: false })
+    .range(offset, offset + pageSize - 1);
+
+  if (error) {
+    console.error("Failed to fetch paginated articles by category:", error);
+    return { data: [], totalCount: 0 };
+  }
+
+  return {
+    data:
+      data?.map((article) => ({
+        ...article,
+        tag: `ART-${String(article.id).padStart(3, "0")}`,
+        date: formatDate(article.created_at),
+      })) ?? [],
+    totalCount: count ?? 0,
+  };
 }

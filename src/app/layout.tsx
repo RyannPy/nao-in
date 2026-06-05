@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Nao-in",
   description: "What do you search?",
+  icons: {
+     icon: "assets/mainlogo-w.png",
+  }
 };
 
 export default function RootLayout({

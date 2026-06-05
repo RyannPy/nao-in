@@ -56,11 +56,11 @@ export async function uploadArticleImage(
   }
 
   const supabase = createBrowserClient();
-  const filename = `${slug}-${Date.now()}.${getExtFromMime(file.type)}`;
+  const filename = `${crypto.randomUUID()}.${getExtFromMime(file.type)}`;
 
   const { error } = await supabase.storage
     .from("articles")
-    .upload(filename, file, { upsert: true });
+    .upload(filename, file, { upsert: false });
 
   if (error) {
     throw error;
@@ -85,4 +85,3 @@ export function extractStoragePath(url: string) {
     return null;
   }
 }
-

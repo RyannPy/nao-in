@@ -1,10 +1,8 @@
 // app/categories/[slug]/page.tsx
 
-import { Suspense } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import ArticleCard from "@/components/ArticleCard";
-import { LoadingCardGrid } from "@/components/loading";
+import { notFound, redirect } from "next/navigation";
+import CategoryArticlesList from "@/components/CategoryArticlesList";
 import PageContainer from "@/components/layout/PageContainer";
 import StatusFooter from "@/components/layout/StatusFooter";
 import PageHeader from "@/components/ui/PageHeader";
@@ -12,10 +10,11 @@ import AccentDivider from "@/components/ui/AccentDivider";
 import MetaRow from "@/components/ui/MetaRow";
 import SectionLabel from "@/components/ui/SectionLabel";
 import {
-  getArticlesByCategory,
+  getArticlesByCategoryPaginated,
   getCategoryMeta,
   CATEGORY_MAP,
 } from "@/lib/articles";
+import { calculateTotalPages, validatePageNumber } from "@/lib/pagination-utils";
 
 export function generateStaticParams() {
   return Object.keys(CATEGORY_MAP).map((slug) => ({ slug }));
@@ -25,15 +24,41 @@ export function generateStaticParams() {
 
 interface Props {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
-export default async function CategorySlugPage({ params }: Props) {
+export default async function CategorySlugPage({ params, searchParams }: Props) {
   const { slug } = await params;
+  const { page: pageParam } = await searchParams;
 
+  // Requirement 7.6 — validate category exists, return 404 if not
   const meta = getCategoryMeta(slug);
   if (!meta) notFound();
 
-  const articles = await getArticlesByCategory(slug);
+  // Fetch a preliminary count to determine total pages before full validation.
+  // We use page 1 to get totalCount cheaply, then redirect if needed.
+  const PAGE_SIZE = 12;
+
+  // Requirement 4.3 — handle non-numeric page param
+  const rawPage = parseInt(pageParam ?? "1", 10);
+  const prelimPage = isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
+
+  // Fetch paginated articles for this category
+  // Requirements: 7.2, 7.3
+  const { data: articles, totalCount } = await getArticlesByCategoryPaginated(
+    slug,
+    prelimPage,
+    PAGE_SIZE,
+  );
+
+  // Requirement 2.2, 7.8 — calculate total pages
+  const totalPages = calculateTotalPages(totalCount, PAGE_SIZE);
+
+  // Requirements 4.1, 4.2, 4.3 — validate page number and redirect if invalid
+  const validatedPage = validatePageNumber(pageParam, totalPages);
+  if (validatedPage !== prelimPage) {
+    redirect(`/categories/${slug}?page=${validatedPage}`);
+  }
 
   return (
     <PageContainer className="font-mono" innerClassName="px-4 py-6 md:px-10 md:py-10 max-w-5xl mx-auto">
@@ -89,7 +114,7 @@ export default async function CategorySlugPage({ params }: Props) {
         rightContent={
           <div className="flex items-center gap-0 bg-[#1a1a1a]">
             <span className="px-3 py-1 text-[#e8c830] text-[11px] font-black tracking-tight">
-              {articles.length}
+              {totalCount}
             </span>
             <span className="px-3 py-1 text-[8px] tracking-[0.25em] text-[#555] uppercase border-l border-[#333]">
               TOTAL
@@ -101,8 +126,8 @@ export default async function CategorySlugPage({ params }: Props) {
       {/* ════════════════════════════════════════════
           4. ARTICLE GRID  /  5. EMPTY STATE
       ════════════════════════════════════════════ */}
-      {articles.length === 0 ? (
-        /* ── Empty state ── */
+      {totalCount === 0 ? (
+        /* ── Empty state — Requirement 7.7 ── */
         <div className="relative border border-[#bbb] bg-[#c9c9c9] px-8 py-16 flex flex-col items-center gap-4">
           {/* Corner ticks */}
           <span className="absolute top-3 left-3 w-3 h-3 border-t border-l border-[#bbb]" />
@@ -133,28 +158,19 @@ export default async function CategorySlugPage({ params }: Props) {
           </Link>
         </div>
       ) : (
-        /* ── Article list ── */
-        <Suspense fallback={<LoadingCardGrid count={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#bbb] border border-[#bbb]">
-            {articles.map((art) => (
-              <ArticleCard
-                key={art.id}
-                tag={`ART-${String(art.id).padStart(3, "0")}`}
-                title={art.title}
-                category={art.category}
-                imageSrc={art.image_src ?? undefined}
-                date={art.date}
-                href={`/articles/${art.slug}`}
-              />
-            ))}
-          </div>
-        </Suspense>
+        /* ── Paginated article list (client component) — Requirements 7.4, 7.5 ── */
+        <CategoryArticlesList
+          articles={articles}
+          currentPage={validatedPage}
+          totalPages={totalPages}
+          categorySlug={slug}
+        />
       )}
 
       {/* ════════════════════════════════════════════
           7. BOTTOM — BACK BUTTON + FOOTER
       ════════════════════════════════════════════ */}
-      {articles.length > 0 && (
+      {totalCount > 0 && (
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-12">
           <Link
             href="/categories"
@@ -184,7 +200,7 @@ export default async function CategorySlugPage({ params }: Props) {
         className="mt-12"
         extraInfo={
           <span className="text-[8px] tracking-[0.15em] text-[#aaa] uppercase">
-            {articles.length} ARTICLES / {meta.label}
+            {totalCount} ARTICLES / {meta.label}
           </span>
         }
       />

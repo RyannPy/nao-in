@@ -1,14 +1,16 @@
-// app/(admin)/admin/articles/page.tsx
+// app/(admin)/admin/articles/AdminArticlesClient.tsx
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import PageContainer from "@/components/layout/PageContainer";
-import PageHeader from "@/components/ui/PageHeader";
 import { deleteArticleAction } from "@/app/(admin)/admin/articles/actions";
+import Pagination, { paginateItems, getTotalPages } from "@/components/ui/Pagination";
 import type { ArticleAdmin } from "@/types/article";
 import type { ArticleStats } from "@/lib/admin/articles";
+import PageHeader from "@/components/ui/PageHeader";
 
 // ─── cx ───────────────────────────────────────────────────────────────────────
 function cx(...c: (string | false | null | undefined)[]) {
@@ -149,15 +151,53 @@ function LoadingPanel() {
 export default function AdminArticlesClient({
   initialArticles,
   initialStats,
+  initialPage = 1,
 }: {
   initialArticles: Article[];
   initialStats: ArticleStats;
+  initialPage?: number;
 }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // Derive currentPage from URL, falling back to initialPage (Req 6.3)
+  const currentPage = (() => {
+    const p = parseInt(searchParams.get("page") ?? String(initialPage), 10);
+    return isNaN(p) || p < 1 ? 1 : p;
+  })();
+
   const [articles, setArticles]         = useState<Article[]>(initialArticles);
-  const [stats, setStats]               = useState<ArticleStats>(initialStats);
+  const [stats]                         = useState<ArticleStats>(initialStats);
   const [search, setSearch]             = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterTab>("ALL");
   const [deleteTarget, setDeleteTarget] = useState<Article | null>(null);
+
+  // Track whether the component has mounted so we skip the reset on initial render
+  const isMounted = useRef(false);
+
+  // Reset pagination to page 1 (via URL) when search or filter changes (Req 6.5, 10.2)
+  useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      return;
+    }
+    try {
+      router.push("/admin/articles?page=1");
+    } catch (err) {
+      console.error("Failed to reset page:", err);
+      window.location.href = "/admin/articles?page=1";
+    }
+  }, [search, activeFilter]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Navigate to a specific page by updating the URL (Req 6.6, 6.7)
+  const handlePageChange = (page: number) => {
+    try {
+      router.push(`/admin/articles?page=${page}`);
+    } catch (err) {
+      console.error("Failed to navigate to page:", err);
+      window.location.href = `/admin/articles?page=${page}`;
+    }
+  };
 
   // ── Derived stats (fallback to live counts if stats not loaded) ──
   const total     = stats?.total     ?? articles.length;
@@ -180,6 +220,10 @@ export default function AdminArticlesClient({
 
     return matchSearch && matchFilter;
   });
+
+  // ── Pagination ──
+  const totalPages = getTotalPages(filtered.length);
+  const paginatedArticles = paginateItems(filtered, currentPage);
 
   // ── Delete handler ──
   function handleDelete(article: Article) {
@@ -258,9 +302,12 @@ export default function AdminArticlesClient({
             <div className="mt-6">
               <SectionLabel>
                 {"// RESULTS — "}
-                {filtered.length}
-                {" / "}
-                {total}
+                {filtered.length > 0
+                  ? `SHOWING ${(currentPage - 1) * 12 + 1}-${Math.min(
+                      currentPage * 12,
+                      filtered.length,
+                    )} / ${filtered.length}`
+                  : `0 / ${total}`}
               </SectionLabel>
 
               <div className="flex flex-col border border-[#b8b8b8] bg-[#b8b8b8] gap-px overflow-hidden">
@@ -290,7 +337,7 @@ export default function AdminArticlesClient({
                 )}
 
                 {/* Rows */}
-                {filtered.map((article) => (
+                {paginatedArticles.map((article) => (
                   <ArticleRow
                     key={article.id}
                     article={article}
@@ -298,6 +345,17 @@ export default function AdminArticlesClient({
                   />
                 ))}
               </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-8 flex justify-center">
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              )}
             </div>
 
             {/* ── CTA ── */}
